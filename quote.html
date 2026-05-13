@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朝阳一号轮胎报价</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: #f2f0ed; color: #1a1a1a; min-height: 100vh;
+}
+.header {
+  background: linear-gradient(135deg, #b00020, #d42030);
+  color: #fff; padding: 28px 16px 20px; text-align: center;
+}
+.header h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+.header .sub { font-size: 13px; opacity: .8; margin-top: 4px; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 12px; }
+.search-box {
+  position: sticky; top: 0; z-index: 10;
+  background: #f2f0ed; padding: 10px 0 8px;
+}
+.search-box input {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd;
+  border-radius: 10px; font-size: 15px; background: #fff;
+  outline: none; transition: border .2s;
+}
+.search-box input:focus { border-color: #b00020; }
+.tabs {
+  display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 10px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 8px 16px; border-radius: 20px;
+  background: #fff; border: 1px solid #ddd; font-size: 13px;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.tab:hover { border-color: #999; }
+.tab.active { background: #b00020; color: #fff; border-color: #b00020; }
+.stats {
+  font-size: 12px; color: #888; padding: 2px 4px 8px;
+}
+table {
+  width: 100%; border-collapse: separate; border-spacing: 0 4px;
+}
+th {
+  position: sticky; top: 56px; z-index: 5;
+  background: #f2f0ed; padding: 6px 10px; 
+  font-size: 12px; color: #888; font-weight: 500;
+  text-align: left; white-space: nowrap;
+}
+th:nth-child(3) { text-align: right; }
+td {
+  background: #fff; padding: 10px 12px; font-size: 14px;
+}
+td:first-child { border-radius: 8px 0 0 8px; }
+td:last-child { border-radius: 0 8px 8px 0; }
+td:nth-child(2) { font-weight: 600; }
+td:nth-child(3) { text-align: right; font-weight: 700; color: #b00020; }
+td .pt { 
+  display: inline-block; font-size: 11px; color: #666;
+  background: #f5f3f0; padding: 1px 8px; border-radius: 10px;
+  margin-right: 6px;
+}
+tr.hide { display: none; }
+.empty { text-align: center; padding: 40px 0; color: #999; font-size: 14px; }
+.footer {
+  text-align: center; padding: 20px; font-size: 11px; color: #aaa;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🛞 朝阳一号 · 报价查询</h1>
+  <div class="sub">官方授权 · 天猫京东同步销售 · 五年质保 · 一年鼓包险</div>
+</div>
+
+<div class="wrap">
+  <div class="search-box">
+    <input id="search" type="text" placeholder="🔍 搜索规格，如 225/55R17" autocomplete="off">
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="stats" id="stats"></div>
+  <table><tbody id="list"></tbody></table>
+  <div class="empty" id="empty" style="display:none">没有匹配的规格</div>
+</div>
+
+<div class="footer">报价仅供参考，实际价格以当日查询为准</div>
+
+<script>
+const DATA = {
+  "EVPRO": [
+    ["265/45SR21", 1599],["255/50R20", 1399],["255/55R20", 1399],["255/45R20", 1499],
+    ["245/45R20", 1299],["255/55R19", 1199],["255/45R19", 1299],["245/45R19", 1199],
+    ["235/40R19", 1199],["235/45R18", 999]
+  ],
+  "朝阳1号": [
+    ["285/45ZR22 XL",1799],["285/35ZR22 XL",1899],["265/40R22 XL",1699],
+    ["315/35ZR21 XL",2199],["315/30ZR21 XL",2299],["295/35ZR21",1599],
+    ["285/40ZR21 XL",1799],["275/45ZR21 XL",1599],["275/30ZR21 XL",1899],
+    ["265/45ZR21 XL",1499],["265/45R21",1499],["245/45ZR21 XL",1599],
+    ["245/35ZR21 XL",1599],["315/35ZR20 XL",1599],["305/40ZR20 XL",1799],
+    ["295/40ZR20 XL",1599],["295/35ZR20 XL",1799],["275/45ZR20 XL",1299],
+    ["275/40ZR20 XL",1299],["265/45ZR20 XL",1399],["255/65R20",1299],
+    ["255/50R20 XL",1259],["255/45ZR20 XL",1399],["255/40ZR20 XL",1399],
+    ["245/50R20",1199],["245/45ZR20 XL",1199],["235/55R20",1199],
+    ["265/40ZR20 XL",1199],["295/40R19 XL",1499],["285/40ZR19",1499],
+    ["275/40ZR19",1159],["275/35ZR19 XL",1159],["265/45ZR19 XL",1499],
+    ["255/55R19",959],["255/50R19",999],["255/45R19 XL",1099],
+    ["255/40ZR19 XL",1099],["245/55R19",929],["245/50R19",959],
+    ["245/45ZR19",959],["245/40ZR19 XL",1059],["245/35ZR19",1059],
+    ["235/55R19 XL",939],["235/50R19",939],["235/45ZR19",1199],
+    ["235/40ZR19",1099],["235/35ZR19 XL",1059],["225/55R19",939],
+    ["225/45ZR19 XL",939],["225/40ZR19 XL",999],["275/45ZR18",1399],
+    ["255/55R18 XL",1099],["255/45ZR18",1099],["255/40ZR18 XL",979],
+    ["245/50R18",939],["245/45ZR18 XL",869],["245/40ZR18 XL",999],
+    ["235/55R18",859],["235/50R18",899],["235/45ZR18 XL",889],
+    ["225/55R18 XL",889],["225/50R18",839],["225/45ZR18 XL",839],
+    ["225/40ZR18 XL",799],["215/55R18",829],["215/50R18",729],
+    ["215/55R17",769],["235/50R17",799],["235/45R17",759],
+    ["225/55R17",689],["225/50R17",679],["225/45ZR17 XL",699],
+    ["215/55R17",649],["215/50R17",649],["215/45ZR17 XL",649],
+    ["205/50R17 XL",569],["215/50R16",559],["215/55R16",529],
+    ["205/60R16",499],["205/55R16",499],["195/65R16",489],
+    ["195/60R15",479],["195/65R15",479]
+  ],
+  "SUV": [
+    ["275/50R22",2199],["275/55R20 XL",1499],["275/50R20 XL",1399],
+    ["265/50R19",1399],["275/50R19 XL",1399],["265/50R19 XL",1199],
+    ["255/65R19 XL",1099],["235/65R17",1199],["235/60R18",1199],
+    ["285/60R18",1199],["265/60R18",1099],["265/65R18",1099],
+    ["245/60R18",979],["235/65R18",959],["235/60R18 XL",819],
+    ["225/60R18",779],["285/65R17",1199],["265/65R17",1099],
+    ["265/60R17",989],["255/65R17",959],["235/65R17",979],
+    ["245/65R17",869],["235/65R17",799],["235/60R17",799],
+    ["225/65R17",659],["225/60R17",669],["215/70R16",899],
+    ["215/65R17",699],["215/60R17",619]
+  ],
+  "ZRT": [
+    ["325/30ZR21 XL",2799],["315/35ZR21 XL",2499],["285/40R21 XL",1899],
+    ["275/40R21 XL",1799],["275/30ZR21 XL",1799],["245/35R21 XL",1799],
+    ["305/40R20 XL",1999],["275/40R20 XL",1699],["275/35R20 XL",1599],
+    ["255/45R20 XL",1499],["245/40R20 XL",1499],["285/35R19",1799],
+    ["275/40R19",1599],["275/35R19 XL",1599],["255/40R19 XL",1399],
+    ["255/35R19 XL",1499],["245/50R19",1299],["245/45R19 XL",1299],
+    ["245/40R19 XL",1299],["245/35R19 XL",1499],["235/55R19 XL",1159],
+    ["235/45R19 XL",1399],["225/40R19 XL",1499],["275/40R18 XL",1499],
+    ["255/55R18 XL",1399],["255/40R18 XL",1299],["255/35R18 XL",1299],
+    ["245/50R18 XL",1199],["245/45R18 XL",1129],["245/40R18 XL",1199],
+    ["235/55R18 XL",1199],["235/50R18 XL",1099],["225/50R18 XL",1059],
+    ["225/45R18 XL",1099],["255/40R17 XL",1049],["225/55R17 XL",989],
+    ["225/50R17 XL",989],["225/45R17 XL",979],["225/40R17 XL",979],
+    ["205/55R17 XL",969]
+  ],
+  "A/T": [
+    ["LT285/50R20-10R",929],["P285/65R20",1699],["245/55R19",1499],
+    ["285/65R18",1459],["LT265/70R18-10PR",1299],["P265/65R18",1499],
+    ["P265/60R18",1299],["LT255/60R18-8PR",1299],["235/65R18",979],
+    ["LT235/70R18-6PR",969],["LT285/70R17-10PR",1399],["LT285/70R17-10PR",1459],
+    ["P285/65R17",1099],["LT265/70R17-10PR",1299],["LT265/65R17-10PR",1059],
+    ["P245/65R17",959],["LT265/70R16-10PR",1099],["LT275/65R16-10PR",1199],
+    ["P265/70R16",999],["P255/70R16",999],["LT245/75R16-10PR",1099],
+    ["LT245/70R16-10PR",969],["P235/70R16",929],["P215/75R16",829],
+    ["P235/75R15",799],["LT235/75R15-6PR",869],["31×10.50R15LT-6PR",899]
+  ]
+};
+
+const LABELS = {
+  EVPRO: "EVPRO (新能源)",
+  "朝阳1号": "朝阳1号 (轿车)",
+  SUV: "SUV",
+  ZRT: "ZRT (性能)",
+  "A/T": "A/T (越野)"
+};
+
+const KEYS = Object.keys(DATA);
+let current = "朝阳1号";
+let allData = [];
+
+KEYS.forEach(k => {
+  DATA[k].forEach(d => allData.push({ pattern: k, spec: d[0], price: d[1] }));
+});
+
+function render() {
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const tbody = document.getElementById("list");
+  const empty = document.getElementById("empty");
+  let items = allData.filter(d => d.pattern === current);
+  if (q) items = items.filter(d => d.spec.toLowerCase().includes(q));
+  tbody.innerHTML = items.map(d => 
+    `<tr><td><span class="pt">${LABELS[current]}</span>${d.spec}</td><td></td><td>¥${d.price}</td></tr>`
+  ).join("");
+  empty.style.display = items.length ? "none" : "block";
+  document.getElementById("stats").textContent = `共 ${items.length} 条规格`;
+  renderTabs();
+}
+
+function renderTabs() {
+  const container = document.getElementById("tabs");
+  container.innerHTML = KEYS.map(k =>
+    `<div class="tab${k === current ? ' active' : ''}" onclick="switchTab('${k}')">${LABELS[k]}</div>`
+  ).join("");
+}
+
+function switchTab(k) { current = k; render(); }
+
+document.getElementById("search").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
