@@ -165,7 +165,6 @@ pickFam(fam,0,2,seen,picked);pickFam(famSc,1,1,seen,picked);
 for(var i=0;i<picked.length;i++){h+='<div class="fc"><div class="fa" style="background:'+picked[i][2]+'">'+emos[pr]+'</div><div class="fn">'+picked[i][0]+'<div class="ft">'+picked[i][1]+'</div></div></div>';}
 h+='</div></div>'
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">A</span>成长建议</h2><p>'+growthAdvice(pr,st)+'</p></div>';
-;
 h+='<div style="text-align:center;margin:32px 0 20px"><a href="wuxing-detail.html" style="display:inline-block;padding:12px 32px;border:2px solid #333;color:#333;font-weight:600;border-radius:10px;text-decoration:none;font-size:14px;letter-spacing:2px;">📖 深入了解五行 →</a></div>';
 h+='<button class="rb" onclick="location.reload()">重新测评</button></div>';
 document.getElementById('res').className='type-'+pr;document.getElementById('res').innerHTML=h;setTimeout(function(){window.scrollTo(0,50)},50);}
