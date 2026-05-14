@@ -1,214 +1,1271 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>朝阳一号轮胎报价</title>
+
+<title>晴川轮胎 · 朝阳一号报价查询</title>
+
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
-  background: #f2f0ed; color: #1a1a1a; min-height: 100vh;
+
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;
+
+  background:#f5f3f0; color:#1a1a1a; min-height:100vh;
+
 }
+
 .header {
-  background: linear-gradient(135deg, #b00020, #d42030);
-  color: #fff; padding: 28px 16px 20px; text-align: center;
+
+  background:linear-gradient(135deg,#b00020,#d42030);
+
+  color:#fff; padding:24px 16px 18px; text-align:center;
+
 }
-.header h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-.header .sub { font-size: 13px; opacity: .8; margin-top: 4px; }
-.wrap { max-width: 720px; margin: 0 auto; padding: 12px; }
-.search-box {
-  position: sticky; top: 0; z-index: 10;
-  background: #f2f0ed; padding: 10px 0 8px;
-}
+
+.header .brand { margin-bottom:8px; }
+
+.header .brand img { height:84px; display:block; margin:0 auto 4px; }
+
+.header h1 { font-size:21px; font-weight:700; letter-spacing:1px; }
+
+.header .sub { font-size:12px; opacity:.75; margin-top:3px; }
+
+.wrap { max-width:720px; margin:0 auto; padding:10px 12px 16px; }
+
+
+
+/* 搜索 */
+
+.search-box { position:sticky; top:0; z-index:10; background:#f5f3f0; padding:8px 0 6px; }
+
 .search-box input {
-  width: 100%; padding: 12px 14px; border: 1px solid #ddd;
-  border-radius: 10px; font-size: 15px; background: #fff;
-  outline: none; transition: border .2s;
+
+  width:100%; padding:11px 14px; border:1px solid #ddd; border-radius:10px;
+
+  font-size:15px; background:#fff; outline:none; transition:border .2s;
+
 }
-.search-box input:focus { border-color: #b00020; }
-.tabs {
-  display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 10px;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
-}
-.tabs::-webkit-scrollbar { display: none; }
+
+.search-box input:focus { border-color:#b00020; }
+
+
+
+/* 标签 */
+
+.tabs { display:flex; gap:5px; overflow-x:auto; padding:2px 0 8px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+
+.tabs::-webkit-scrollbar { display:none; }
+
 .tab {
-  flex-shrink: 0; padding: 8px 16px; border-radius: 20px;
-  background: #fff; border: 1px solid #ddd; font-size: 13px;
-  cursor: pointer; transition: all .2s; white-space: nowrap;
+
+  flex-shrink:0; padding:7px 14px; border-radius:18px; background:#fff;
+
+  border:1px solid #ddd; font-size:12px; cursor:pointer; transition:all .2s; white-space:nowrap;
+
 }
-.tab:hover { border-color: #999; }
-.tab.active { background: #b00020; color: #fff; border-color: #b00020; }
-.stats {
-  font-size: 12px; color: #888; padding: 2px 4px 8px;
+
+.tab:hover { border-color:#999; }
+
+.tab.active { background:#b00020; color:#fff; border-color:#b00020; }
+
+
+
+/* 产品信息卡 */
+
+.profile {
+
+  background:#fff; border-radius:12px; padding:14px; margin:8px 0 0;
+
+  line-height:1.7; font-size:13px; box-shadow:0 1px 3px rgba(0,0,0,.06);
+
 }
-table {
-  width: 100%; border-collapse: separate; border-spacing: 0 4px;
+
+.profile .p-title { font-size:16px; font-weight:700; color:#b00020; margin-bottom:6px; }
+
+.profile .p-tag {
+
+  display:inline-block; font-size:11px; background:#b00020; color:#fff;
+
+  padding:1px 10px; border-radius:10px; margin:3px 3px 0 0;
+
 }
+
+.profile .p-tag.gr { background:#2d8c3c; }
+
+.profile .p-tag.bl { background:#2563eb; }
+
+.profile .p-tag.or { background:#d97706; }
+
+.profile .p-tag.pu { background:#7c3aed; }
+
+.profile .p-stat { display:flex; flex-wrap:wrap; gap:4px 12px; margin:6px 0; }
+
+.profile .p-stat em { font-style:normal; font-weight:600; }
+
+.profile .p-stat small { color:#888; font-size:11px; }
+
+.profile .p-bullet { list-style:none; padding:0; margin:4px 0 0; }
+
+.profile .p-bullet li { position:relative; padding-left:14px; margin:2px 0; font-size:12px; color:#444; }
+
+.profile .p-bullet li::before { content:"•"; position:absolute; left:0; color:#b00020; font-weight:700; }
+
+.profile .p-desc { font-size:12px; color:#555; margin:4px 0; }
+
+
+
+/* 特性对比条 */
+
+.feature-bar {
+
+  margin:6px 0; display:flex; gap:6px; flex-wrap:wrap;
+
+}
+
+.feature-bar .fb {
+
+  flex:1; min-width:70px; text-align:center; padding:6px 4px;
+
+  border-radius:6px; background:#f5f3f0; font-size:11px; color:#333;
+
+}
+
+.feature-bar .fb strong { display:block; font-size:13px; color:#b00020; }
+
+
+
+/* 表 */
+
+.stats { font-size:11px; color:#888; padding:4px 4px 6px; }
+
+table { width:100%; border-collapse:separate; border-spacing:0 3px; }
+
 th {
-  position: sticky; top: 56px; z-index: 5;
-  background: #f2f0ed; padding: 6px 10px; 
-  font-size: 12px; color: #888; font-weight: 500;
-  text-align: left; white-space: nowrap;
+
+  position:sticky; top:52px; z-index:5; background:#f5f3f0;
+
+  padding:4px 10px; font-size:11px; color:#888; font-weight:500;
+
+  text-align:left; white-space:nowrap;
+
 }
-th:nth-child(3) { text-align: right; }
+
+th:nth-child(2) { text-align:right; font-size:10px; }
+
+th:nth-child(3) { text-align:right; font-size:10px; }
+
 td {
-  background: #fff; padding: 10px 12px; font-size: 14px;
+
+  background:#fff; padding:9px 12px; font-size:13px;
+
 }
-td:first-child { border-radius: 8px 0 0 8px; }
-td:last-child { border-radius: 0 8px 8px 0; }
-td:nth-child(2) { font-weight: 600; }
-td:nth-child(3) { text-align: right; font-weight: 700; color: #b00020; }
-td .pt { 
-  display: inline-block; font-size: 11px; color: #666;
-  background: #f5f3f0; padding: 1px 8px; border-radius: 10px;
-  margin-right: 6px;
-}
-tr.hide { display: none; }
-.empty { text-align: center; padding: 40px 0; color: #999; font-size: 14px; }
-.footer {
-  text-align: center; padding: 20px; font-size: 11px; color: #aaa;
-}
+
+td:first-child { border-radius:8px 0 0 8px; min-width:0; }
+
+td .spec { font-size:13px; line-height:1.4; }
+
+td .car-model { font-size:10px; color:#999; margin-top:1px; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px; }
+
+td:nth-child(2) { text-align:right; padding-right:8px; font-size:11px; color:#999; max-width:1px; white-space:nowrap; }
+
+td:nth-child(3) { text-align:right; font-weight:700; color:#b00020; width:1px; white-space:nowrap; }
+
+td:nth-child(2) { text-align:right; font-weight:700; color:#b00020; }
+
+tr.hide { display:none; }
+
+.empty { text-align:center; padding:40px 0; color:#999; font-size:14px; }
+
+
+
+/* 底部 */
+
+.footer { text-align:center; padding:16px 20px; font-size:11px; color:#aaa; line-height:1.8; }
+
+.footer strong { color:#666; }
+
+
+
+/* 页面加载时淡出 */
+
+#profile-area { min-height:0; }
+
 </style>
+
 </head>
+
 <body>
 
+
+
 <div class="header">
-  <h1>🛞 朝阳一号 · 报价查询</h1>
-  <div class="sub">官方授权 · 天猫京东同步销售 · 五年质保 · 一年鼓包险</div>
+
+  <div class="brand"><img src="https://raw.githubusercontent.com/DS00-00/qingchuan-tire/main/logo.jpg" alt="晴川轮胎"></div>
+
+  <div class="sub" style="font-size:13px;opacity:.9;margin-bottom:2px;">中策橡胶官方授权 · 孝感城区唯一指定经销商</div>
+
+  <h1>🛞 朝阳一号 · 专业报价</h1>
+
+  <div class="sub">五年质保 · 一年鼓包险 · 天猫/京东同步在售</div>
+
 </div>
+
+
 
 <div class="wrap">
+
   <div class="search-box">
+
     <input id="search" type="text" placeholder="🔍 搜索规格，如 225/55R17" autocomplete="off">
+
   </div>
+
   <div class="tabs" id="tabs"></div>
+
+  <div id="profile-area"></div>
+
   <div class="stats" id="stats"></div>
-  <table><tbody id="list"></tbody></table>
+
+  <table><thead><tr><th>规格</th><th>适配车型</th><th>价格</th></tr></thead><tbody id="list"></tbody></table>
+
   <div class="empty" id="empty" style="display:none">没有匹配的规格</div>
+
 </div>
 
-<div class="footer">报价仅供参考，实际价格以当日查询为准</div>
+
+
+<div class="footer">
+
+  <strong>晴川轮胎 · 中策橡胶·朝阳一号官方授权 · 孝感城区唯一指定经销商</strong><br>
+
+  报价仅供参考，实际价格以当日查询为准
+
+</div>
+
+
 
 <script>
-const DATA = {
-  "EVPRO": [
-    ["265/45SR21", 1599],["255/50R20", 1399],["255/55R20", 1399],["255/45R20", 1499],
-    ["245/45R20", 1299],["255/55R19", 1199],["255/45R19", 1299],["245/45R19", 1199],
-    ["235/40R19", 1199],["235/45R18", 999]
-  ],
-  "朝阳1号": [
-    ["285/45ZR22 XL",1799],["285/35ZR22 XL",1899],["265/40R22 XL",1699],
-    ["315/35ZR21 XL",2199],["315/30ZR21 XL",2299],["295/35ZR21",1599],
-    ["285/40ZR21 XL",1799],["275/45ZR21 XL",1599],["275/30ZR21 XL",1899],
-    ["265/45ZR21 XL",1499],["265/45R21",1499],["245/45ZR21 XL",1599],
-    ["245/35ZR21 XL",1599],["315/35ZR20 XL",1599],["305/40ZR20 XL",1799],
-    ["295/40ZR20 XL",1599],["295/35ZR20 XL",1799],["275/45ZR20 XL",1299],
-    ["275/40ZR20 XL",1299],["265/45ZR20 XL",1399],["255/65R20",1299],
-    ["255/50R20 XL",1259],["255/45ZR20 XL",1399],["255/40ZR20 XL",1399],
-    ["245/50R20",1199],["245/45ZR20 XL",1199],["235/55R20",1199],
-    ["265/40ZR20 XL",1199],["295/40R19 XL",1499],["285/40ZR19",1499],
-    ["275/40ZR19",1159],["275/35ZR19 XL",1159],["265/45ZR19 XL",1499],
-    ["255/55R19",959],["255/50R19",999],["255/45R19 XL",1099],
-    ["255/40ZR19 XL",1099],["245/55R19",929],["245/50R19",959],
-    ["245/45ZR19",959],["245/40ZR19 XL",1059],["245/35ZR19",1059],
-    ["235/55R19 XL",939],["235/50R19",939],["235/45ZR19",1199],
-    ["235/40ZR19",1099],["235/35ZR19 XL",1059],["225/55R19",939],
-    ["225/45ZR19 XL",939],["225/40ZR19 XL",999],["275/45ZR18",1399],
-    ["255/55R18 XL",1099],["255/45ZR18",1099],["255/40ZR18 XL",979],
-    ["245/50R18",939],["245/45ZR18 XL",869],["245/40ZR18 XL",999],
-    ["235/55R18",859],["235/50R18",899],["235/45ZR18 XL",889],
-    ["225/55R18 XL",889],["225/50R18",839],["225/45ZR18 XL",839],
-    ["225/40ZR18 XL",799],["215/55R18",829],["215/50R18",729],
-    ["215/55R17",769],["235/50R17",799],["235/45R17",759],
-    ["225/55R17",689],["225/50R17",679],["225/45ZR17 XL",699],
-    ["215/55R17",649],["215/50R17",649],["215/45ZR17 XL",649],
-    ["205/50R17 XL",569],["215/50R16",559],["215/55R16",529],
-    ["205/60R16",499],["205/55R16",499],["195/65R16",489],
-    ["195/60R15",479],["195/65R15",479]
-  ],
-  "SUV": [
-    ["275/50R22",2199],["275/55R20 XL",1499],["275/50R20 XL",1399],
-    ["265/50R19",1399],["275/50R19 XL",1399],["265/50R19 XL",1199],
-    ["255/65R19 XL",1099],["235/65R17",1199],["235/60R18",1199],
-    ["285/60R18",1199],["265/60R18",1099],["265/65R18",1099],
-    ["245/60R18",979],["235/65R18",959],["235/60R18 XL",819],
-    ["225/60R18",779],["285/65R17",1199],["265/65R17",1099],
-    ["265/60R17",989],["255/65R17",959],["235/65R17",979],
-    ["245/65R17",869],["235/65R17",799],["235/60R17",799],
-    ["225/65R17",659],["225/60R17",669],["215/70R16",899],
-    ["215/65R17",699],["215/60R17",619]
-  ],
-  "ZRT": [
-    ["325/30ZR21 XL",2799],["315/35ZR21 XL",2499],["285/40R21 XL",1899],
-    ["275/40R21 XL",1799],["275/30ZR21 XL",1799],["245/35R21 XL",1799],
-    ["305/40R20 XL",1999],["275/40R20 XL",1699],["275/35R20 XL",1599],
-    ["255/45R20 XL",1499],["245/40R20 XL",1499],["285/35R19",1799],
-    ["275/40R19",1599],["275/35R19 XL",1599],["255/40R19 XL",1399],
-    ["255/35R19 XL",1499],["245/50R19",1299],["245/45R19 XL",1299],
-    ["245/40R19 XL",1299],["245/35R19 XL",1499],["235/55R19 XL",1159],
-    ["235/45R19 XL",1399],["225/40R19 XL",1499],["275/40R18 XL",1499],
-    ["255/55R18 XL",1399],["255/40R18 XL",1299],["255/35R18 XL",1299],
-    ["245/50R18 XL",1199],["245/45R18 XL",1129],["245/40R18 XL",1199],
-    ["235/55R18 XL",1199],["235/50R18 XL",1099],["225/50R18 XL",1059],
-    ["225/45R18 XL",1099],["255/40R17 XL",1049],["225/55R17 XL",989],
-    ["225/50R17 XL",989],["225/45R17 XL",979],["225/40R17 XL",979],
-    ["205/55R17 XL",969]
-  ],
-  "A/T": [
-    ["LT285/50R20-10R",929],["P285/65R20",1699],["245/55R19",1499],
-    ["285/65R18",1459],["LT265/70R18-10PR",1299],["P265/65R18",1499],
-    ["P265/60R18",1299],["LT255/60R18-8PR",1299],["235/65R18",979],
-    ["LT235/70R18-6PR",969],["LT285/70R17-10PR",1399],["LT285/70R17-10PR",1459],
-    ["P285/65R17",1099],["LT265/70R17-10PR",1299],["LT265/65R17-10PR",1059],
-    ["P245/65R17",959],["LT265/70R16-10PR",1099],["LT275/65R16-10PR",1199],
-    ["P265/70R16",999],["P255/70R16",999],["LT245/75R16-10PR",1099],
-    ["LT245/70R16-10PR",969],["P235/70R16",929],["P215/75R16",829],
-    ["P235/75R15",799],["LT235/75R15-6PR",869],["31×10.50R15LT-6PR",899]
-  ]
+
+// ===== 数据 =====
+
+// ===== 轮胎适配车型映射 =====
+
+const CAR_MODELS = {
+
+// EVPRO - 新能源
+
+"265/45SR21":"蔚来ET7/ES8",
+
+"255/50R20":"理想L9/L8",
+
+"255/55R20":"理想L9/问界M9",
+
+"255/45R20 ZRT":"蔚来ET5/ET7",
+
+"245/45R20":"比亚迪汉EV/特斯拉Model Y",
+
+"255/55R19 ZRT":"理想L7/L8·问界M7",
+
+"255/45R19":"特斯拉Model 3/小鹏P7",
+
+"245/45R19 ZRT":"特斯拉Model 3/比亚迪海豹",
+
+"235/40R19":"特斯拉Model 3/极氪001",
+
+"235/45R18":"比亚迪海豹/小鹏P7",
+
+// 朝阳1号 - 家用轿车/SUV
+
+"285/45ZR22 XL":"理想L9/宝马X7",
+
+"285/35ZR22 XL":"保时捷Cayenne/奔驰GLE",
+
+"265/40R22 XL":"理想L9/蔚来ES8",
+
+"315/35ZR21 XL":"保时捷Panamera",
+
+"315/30ZR21 XL":"兰博基尼Urus",
+
+"295/35ZR21":"宝马X6 M/奔驰GLE",
+
+"285/40ZR21 XL":"保时捷Cayenne/宝马X5",
+
+"275/45ZR21 XL":"奔驰GLE/路虎发现",
+
+"275/30ZR21 XL":"保时捷911/奥迪R8",
+
+"265/45ZR21 XL":"奔驰GLE/宝马X5",
+
+"265/45R21":"奔驰GLE/宝马X5",
+
+"245/45ZR21 XL":"蔚来ET7",
+
+"245/35ZR21 XL":"特斯拉Model S",
+
+"315/35ZR20 XL":"法拉利Roma",
+
+"305/40ZR20 XL":"保时捷Cayenne",
+
+"295/40ZR20 XL":"奔驰GLE Coupe",
+
+"295/35ZR20 XL":"宝马M4/奥迪RS5",
+
+"275/45ZR20 XL":"宝马X5/大众途锐",
+
+"275/40ZR20 XL":"奔驰GLE/奥迪Q8",
+
+"265/45ZR20 XL":"宝马X5/奥迪Q7",
+
+"255/65R20":"丰田汉兰达/福特探险者",
+
+"255/50R20":"理想L9/蔚来ES6",
+
+"255/45R20":"蔚来ET5/奔驰E级",
+
+"255/45ZR20 XL":"宝马5系/奔驰E级",
+
+"255/40ZR20 XL":"宝马3系/奥迪A4L",
+
+"245/50R20":"理想L8/问界M7",
+
+"245/45ZR20 XL":"比亚迪汉EV/特斯拉Model Y",
+
+"235/55R20":"理想L7/途昂",
+
+"265/40ZR20 XL":"奥迪S4/宝马M340i",
+
+"295/40R19 XL":"奔驰E53 AMG",
+
+"285/40ZR19":"保时捷Panamera/宝马M5",
+
+"275/40ZR19":"宝马5系/奥迪A6L",
+
+"275/35ZR19 XL":"宝马M3/奥迪RS4",
+
+"265/45ZR19 XL":"奔驰E级/宝马5系",
+
+"255/55R19":"理想L7/宝马X3",
+
+"255/50R19 ZRT":"奔驰GLE/宝马X5",
+
+"255/45R19":"特斯拉Model 3/小鹏P7",
+
+"255/45R19 XL":"特斯拉Model Y/极氪001",
+
+"255/40ZR19 XL":"宝马3系/奥迪A4L",
+
+"245/55R19":"理想L7/L8",
+
+"245/50R19 ZRT":"理想L7/L8",
+
+"245/45ZR19":"特斯拉Model 3/比亚迪汉",
+
+"245/40ZR19 XL":"宝马3系/奥迪A4L",
+
+"245/35ZR19":"保时捷718",
+
+"235/55R19 XL":"比亚迪唐DM-i/理想ONE",
+
+"235/50R19":"比亚迪宋PLUS/理想L6",
+
+"235/45ZR19":"宝马X4/奔驰GLC Coupe",
+
+"235/40ZR19":"特斯拉Model 3/比亚迪海豹",
+
+"235/35ZR19 XL":"大众高尔夫R/奥迪S3",
+
+"225/55R19":"比亚迪汉DM-i",
+
+"225/45ZR19 XL":"特斯拉Model 3/小鹏P7",
+
+"225/40ZR19 XL":"大众CC/奥迪A3",
+
+"275/45ZR18":"大众途锐/宝马X5",
+
+"255/55R18 XL":"宝马X3/奔驰GLC",
+
+"255/45ZR18":"宝马3系/捷豹XE",
+
+"255/40ZR18 XL":"宝马3系/奥迪A4L",
+
+"245/50R18 ZRT":"比亚迪唐/理想ONE",
+
+"245/45ZR18 XL":"奥迪A6L/宝马5系",
+
+"245/40ZR18 XL":"凯迪拉克CT5/宝马3系",
+
+"235/55R18 ZRT":"奥迪Q5/宝马X3",
+
+"235/50R18 ZRT":"宝马X1/奔驰GLB",
+
+"235/45ZR18 XL":"大众CC/奥迪A5",
+
+"225/55R18":"奥迪A6L/奔驰E级",
+
+"225/50R18 ZRT":"宝马5系/奔驰E级",
+
+"225/45ZR18 XL":"宝马3系/奥迪A4L",
+
+"225/40ZR18 XL":"高尔夫GTI/奥迪S3",
+
+"215/55R18":"丰田凯美瑞/亚洲龙",
+
+"215/50R18":"本田雅阁/英仕派",
+
+"235/50R17":"丰田凯美瑞/本田雅阁",
+
+"235/45R17":"大众迈腾/帕萨特",
+
+"225/55R17 ZRT":"宝马3系/奥迪A4L",
+
+"225/50R17 ZRT":"大众迈腾/丰田凯美瑞",
+
+"225/45ZR17 XL":"大众CC/奥迪A3",
+
+"215/55R17":"丰田卡罗拉/大众速腾",
+
+"215/50R17":"本田思域/马自达3",
+
+"215/45ZR17 XL":"大众凌渡/本田思域",
+
+"205/50R17 XL":"马自达昂克赛拉/福特福克斯",
+
+"215/50R16":"丰田雷凌/日产轩逸",
+
+"215/55R16":"丰田卡罗拉/大众宝来",
+
+"205/60R16":"日产轩逸/大众朗逸",
+
+"205/55R16":"大众朗逸/丰田卡罗拉",
+
+"195/65R16":"大众朗逸/日产轩逸",
+
+"195/60R15":"丰田威驰/本田飞度",
+
+"195/65R15":"大众速腾/斯柯达明锐",
+
+// SPORT-E 运动
+
+"285/40ZR21 XL":"宝马X5M/奔驰GLE63",
+
+"275/40ZR21 XL":"宝马X5/奥迪Q8",
+
+"265/45ZR21 XL":"宝马X5/奔驰GLE",
+
+"255/45ZR21 XL":"宝马5系/奔驰E级",
+
+"245/35ZR21 XL":"宝马M3/奥迪RS5",
+
+"275/35ZR20 XL":"宝马M3/奥迪RS4",
+
+"265/35ZR20 XL":"宝马M4/保时捷911",
+
+"255/40ZR20 XL":"宝马3系/奥迪S4",
+
+"245/40ZR20 XL":"凯迪拉克CT5/宝马3系",
+
+"235/35ZR20 XL":"大众高尔夫R",
+
+"275/35ZR19 XL":"宝马M3/奥迪RS4",
+
+"265/35ZR19 XL":"保时捷911/宝马M4",
+
+"255/35ZR19 XL":"特斯拉Model 3 Perf",
+
+"245/40ZR19 XL":"宝马3系/奥迪A4L",
+
+"245/35ZR19 XL":"保时捷718",
+
+"235/40ZR19":"特斯拉Model 3/比亚迪海豹",
+
+"235/35ZR19 XL":"大众高尔夫R/奥迪S3",
+
+"225/40ZR19 XL":"大众CC/奥迪A3",
+
+"245/40ZR18 XL":"凯迪拉克CT5/宝马3系",
+
+"235/40ZR18 XL":"大众CC/奥迪A5",
+
+"225/45ZR18 XL":"宝马3系/奥迪A4L",
+
+"225/40ZR18 XL":"高尔夫GTI/奥迪S3",
+
+"215/45ZR18 XL":"领克03+/思域Type-R",
+
+// ZRT 防爆
+
+"325/30ZR21 XL":"法拉利812/兰博基尼",
+
+"315/35ZR21 XL":"保时捷Panamera",
+
+"285/40R21 XL":"宝马X5/奔驰GLS",
+
+"275/40R21 XL":"宝马X5/奔驰GLE",
+
+"275/30ZR21 XL":"保时捷911",
+
+"245/35R21 XL":"宝马M3/奥迪RS5",
+
+"305/40R20 XL":"保时捷Cayenne",
+
+"275/40R20 XL":"宝马5系/奔驰E级",
+
+"275/35R20 XL":"宝马M3/奥迪S4",
+
+"255/45R20 XL":"宝马5系/奔驰E级",
+
+"245/40R20 XL":"宝马3系/奥迪A4L",
+
+"285/35R19":"宝马M5/E63 AMG",
+
+"275/40R19 ZRT":"宝马5系/奥迪A6L",
+
+"275/35R19 XL":"宝马M3/奥迪RS4",
+
+"255/40R19 XL":"宝马3系/奔驰C级",
+
+"255/35R19 XL":"特斯拉Model 3 Perf",
+
+"245/50R19":"宝马X3/奔驰GLC",
+
+"245/45R19 XL":"宝马5系/奔驰E级",
+
+"245/40R19 XL":"宝马3系/奥迪A4L",
+
+"245/35R19 XL":"保时捷718",
+
+"235/55R19 XL":"宝马X3/奔驰GLC",
+
+"235/45R19 XL":"宝马4系/奔驰C Coupe",
+
+"225/40R19 XL":"宝马1系/奥迪A3",
+
+"275/40R18 XL":"宝马3系/奔驰C级",
+
+"255/55R18 XL":"宝马X3/奔驰GLC",
+
+"255/40R18 XL":"宝马3系/奥迪A4L",
+
+"255/35R18 XL":"宝马M2/奥迪RS3",
+
+"245/50R18 XL":"宝马X1/奔驰GLB",
+
+"245/45R18 XL":"宝马5系/奥迪A6L",
+
+"245/40R18 XL":"宝马3系/奔驰C级",
+
+"235/55R18 XL":"宝马X1/奥迪Q3",
+
+"235/50R18 XL":"宝马X1/奔驰GLB",
+
+"225/50R18 XL":"宝马5系/奥迪A6L",
+
+"225/45R18 XL":"宝马3系/奥迪A4L",
+
+"255/40R17 XL":"宝马1系/奥迪A3",
+
+"225/55R17 XL":"宝马1系/奔驰A级",
+
+"225/50R17 XL":"宝马1系/奥迪A3",
+
+"225/45R17 XL":"宝马1系/奔驰A级",
+
+"225/40R17 XL":"大众高尔夫/奥迪A3",
+
+"205/55R17 XL":"宝马1系/奥迪A3",
+
+// SUV
+
+"275/50R22":"理想L9/问界M9",
+
+"275/55R20 XL":"丰田普拉多/路虎发现5",
+
+"275/50R20 XL":"宝马X5/大众途锐",
+
+"265/50R19":"丰田汉兰达/大众途观L",
+
+"275/50R19 XL":"奔驰GLE/宝马X5",
+
+"265/50R19 XL":"丰田汉兰达/雷克萨斯RX",
+
+"255/65R19 XL":"丰田普拉多/三菱帕杰罗",
+
+"235/60R18":"丰田RAV4/本田CR-V",
+
+"285/60R18":"丰田普拉多/福特撼路者",
+
+"265/60R18":"丰田汉兰达/大众途昂",
+
+"265/65R18":"丰田普拉多/三菱帕杰罗劲畅",
+
+"245/60R18":"本田CR-V/日产奇骏",
+
+"235/65R18":"丰田RAV4/本田CR-V",
+
+"235/60R18 XL":"大众途观L/探岳",
+
+"225/60R18":"本田CR-V/日产奇骏",
+
+"285/65R17":"丰田普拉多/Jeep牧马人",
+
+"265/65R17":"丰田汉兰达/哈弗H7",
+
+"265/60R17":"丰田RAV4/哈弗H6",
+
+"255/65R17":"马自达CX-8/福特锐界",
+
+"245/65R17":"哈弗H6/长安CS75",
+
+"235/65R17":"哈弗H6/荣威RX5",
+
+"235/60R17":"丰田RAV4/日产奇骏",
+
+"225/65R17":"本田CR-V/丰田RAV4",
+
+"225/60R17":"日产奇骏/三菱欧蓝德",
+
+"215/70R16":"本田CR-V/丰田RAV4",
+
+"215/65R17":"日产逍客/三菱劲炫",
+
+"215/60R17":"丰田RAV4/日产逍客",
+
+// A/T 越野
+
+"LT285/50R20-10R":"福特F150猛禽",
+
+"P285/65R20":"福特探险者/丰田红杉",
+
+"245/55R19":"福特锐界/现代胜达",
+
+"285/65R18":"丰田普拉多/丰田陆巡",
+
+"LT265/70R18-10PR":"丰田海拉克斯/福特Ranger",
+
+"P265/65R18":"丰田普拉多/三菱帕杰罗",
+
+"P265/60R18":"丰田汉兰达/大众途昂",
+
+"LT255/60R18-8PR":"五十铃D-MAX/日产纳瓦拉",
+
+"235/65R18":"哈弗H5/北京BJ40",
+
+"LT235/70R18-6PR":"五十铃牧游侠",
+
+"LT285/70R17-10PR":"福特烈马/Jeep牧马人",
+
+"P285/65R17":"丰田普拉多/福特撼路者",
+
+"LT265/70R17-10PR":"丰田海拉克斯/江西五十铃",
+
+"LT265/65R17-10PR":"五十铃D-MAX",
+
+"P245/65R17":"哈弗H5/北京BJ40",
+
+"LT265/70R16-10PR":"长城炮/江铃域虎",
+
+"LT275/65R16-10PR":"丰田坦途/道奇公羊",
+
+"P265/70R16":"长城炮/五十铃D-MAX",
+
+"P255/70R16":"长城风骏/江铃宝典",
+
+"LT245/75R16-10PR":"日产纳瓦拉/丰田海拉克斯",
+
+"LT245/70R16-10PR":"长城炮/郑州日产锐骐",
+
+"P235/70R16":"哈弗H3/北京BJ40",
+
+"P215/75R16":"长城风骏5",
+
+"P235/75R15":"铃木吉姆尼/北汽212",
+
+"LT235/75R15-6PR":"长城赛弗",
+
+"31×10.50R15LT-6PR":"Jeep牧马人/北汽BJ40",
+
+// ZRT · 缺气保用
+"275/35R20 防暴":"宝马3系/4系/A4L",
+"285/30R19 ZRT":"保时捷911/718/M2",
+"255/50R19 ZRT":"揽胜运动/奔驰GLE",
+"255/55R19 ZRT":"宝马X5/GLE/途锐",
+"245/50R19 ZRT":"奥迪A6L/5系/E级",
+"245/45R19 ZRT":"Model 3/汉EV/小鹏P7",
+"245/40R19 ZRT":"宝马3系/A4L/CT5",
+"245/35R19 ZRT":"宝马4系/A5/Model 3P",
+"235/55R19 ZRT":"途观L/CR-V/RAV4",
+"235/45R19 ZRT":"Model 3/小鹏P7i",
+"225/45R19 ZRT":"领克03+/A3L",
+"225/40R19 ZRT":"高尔夫GTI/A3/1系",
+"275/40R18 ZRT":"宝马3系/C级/K5",
+"255/55R18 ZRT":"途观L/探岳/CR-V",
+"255/40R18 ZRT":"宝马3系/野马/A4L",
+"255/35R18 ZRT":"高尔夫GTI/福克斯ST",
+"245/50R18 ZRT":"君越/亚洲龙/迈腾",
+"245/45R18 ZRT":"凯美瑞/雅阁/天籁",
+"245/40R18 ZRT":"迈腾/帕萨特/CC",
+"235/50R18 ZRT":"雅阁/凯美瑞/天籁",
+"235/55R18 ZRT":"CR-V/RAV4/途观L",
+"225/50R18 ZRT":"雅阁/凯美瑞/迈腾",
+"225/45R18 ZRT":"思域/速腾/马自达3",
+"225/40R18 ZRT":"思域/高尔夫/昂克赛拉",
+"255/40R17 ZRT":"宝马3系/A4L/C级",
+"225/55R17 ZRT":"雅阁/凯美瑞/天籁",
+"225/50R17 ZRT":"思域/速腾/马自达3",
+"225/45R17 ZRT":"马自达3/福克斯/思域",
+"205/55R17 ZRT":"朗逸/卡罗拉/轩逸",
+"205/50R17 ZRT":"昂克赛拉/福克斯/领克03",
 };
+
+
+
+const DATA = {
+
+  "EVPRO": [
+
+    ["265/45SR21",1599],["255/50R20",1399],["255/55R20",1399],["255/45R20",1499],
+
+    ["245/45R20",1299],["255/55R19",1199],["255/45R19",1299],["245/45R19",1199],
+
+    ["235/40R19",1199],["235/45R18",999]
+
+  ],
+
+  "朝阳1号": [
+
+    ["225/65R17",659],["235/65R17",799],["245/65R17",869],["285/45ZR22 XL",1799],["285/35ZR22 XL",1899],["265/40R22 XL",1699],
+
+    ["315/35ZR21 XL",2199],["315/30ZR21 XL",2299],["295/35ZR21",1599],
+
+    ["285/40ZR21 XL",1799],["275/45ZR21 XL",1599],["275/30ZR21 XL",1899],
+
+    ["265/45ZR21 XL",1499],["265/45R21",1499],["245/45ZR21 XL",1599],
+
+    ["245/35ZR21 XL",1599],["315/35ZR20 XL",1599],["305/40ZR20 XL",1799],
+
+    ["295/40ZR20 XL",1599],["295/35ZR20 XL",1799],["275/45ZR20 XL",1299],
+
+    ["275/40ZR20 XL",1299],["265/45ZR20 XL",1399],["255/65R20",1299],
+
+    ["255/50R20",1259],["255/45R20",1199],["255/45ZR20 XL",1399],["255/40ZR20 XL",1399],
+
+    ["245/50R20",1199],["245/45ZR20 XL",1199],["235/55R20",1199],
+
+    ["265/40ZR20 XL",1199],["295/40R19 XL",1499],["285/40ZR19",1499],
+
+    ["275/40ZR19",1159],["275/35ZR19 XL",1159],["265/45ZR19 XL",1499],
+
+    ["255/55R19",959],["255/50R19",999],["255/45R19",999],["255/45R19 XL",1099],
+
+    ["255/40ZR19 XL",1099],["245/55R19",959],["245/50R19",959],
+
+    ["245/45ZR19",959],["245/40ZR19 XL",1059],["245/35ZR19",1059],
+
+    ["235/55R19 XL",939],["235/50R19",939],["235/45ZR19",1199],
+
+    ["235/40ZR19",1099],["235/35ZR19 XL",1059],["225/55R19",939],
+
+    ["225/45ZR19 XL",939],["225/40ZR19 XL",999],
+
+    ["275/45ZR18",1399],["255/55R18 XL",1099],["255/45ZR18",1099],
+
+    ["255/40ZR18 XL",979],["245/50R18",939],["245/45ZR18 XL",869],
+
+    ["245/40ZR18 XL",999],["235/55R18",859],["235/50R18",899],
+
+    ["235/45ZR18 XL",889],["225/55R18",889],["225/50R18",839],
+
+    ["225/45ZR18 XL",839],["225/40ZR18 XL",799],["215/55R18",729],
+
+    ["215/50R18",729],["235/50R17",799],["235/45R17",759],
+
+    ["225/55R17",689],["225/50R17",679],["225/45ZR17 XL",699],
+
+    ["215/55R17",769],["215/55R17",649],["215/50R17",649],["215/45ZR17 XL",649],
+
+    ["205/50R17 XL",569],["215/50R16",559],["215/55R16",529],
+
+    ["205/60R16",499],["205/55R16",499],["195/65R16",489],
+
+    ["195/60R15",479],["195/65R15",479]
+
+  ],
+
+  "SPORTE": [
+
+    ["285/40ZR21 XL",1799],["275/40ZR21 XL",1699],["265/45ZR21 XL",1599],
+
+    ["255/45ZR21 XL",1699],["245/35ZR21 XL",1699],
+
+    ["275/35ZR20 XL",1499],["265/35ZR20 XL",1499],["255/40ZR20 XL",1499],
+
+    ["245/40ZR20 XL",1399],["235/35ZR20 XL",1299],
+
+    ["275/35ZR19 XL",1299],["265/35ZR19 XL",1299],["255/35ZR19 XL",1299],
+
+    ["245/40ZR19 XL",1199],["245/35ZR19 XL",1199],["235/40ZR19",1199],
+
+    ["235/35ZR19 XL",1199],["225/40ZR19 XL",1099],
+
+    ["245/40ZR18 XL",1099],["235/40ZR18 XL",999],["225/45ZR18 XL",899],
+
+    ["225/40ZR18 XL",899],["215/45ZR18 XL",899]
+
+  ],
+
+    "ZRT": [
+    ["275/35R20 防暴",1599],
+    ["255/45R20 ZRT",1499],
+    ["245/40R20 ZRT",1499],
+    ["285/30R19 ZRT",1799],
+    ["275/40R19 ZRT",1599],
+    ["255/50R19 ZRT",1399],
+    ["255/55R19 ZRT",1499],
+    ["245/50R19 ZRT",1299],
+    ["245/45R19 ZRT",1299],
+    ["245/40R19 ZRT",1299],
+    ["245/35R19 ZRT",1499],
+    ["235/55R19 ZRT",1159],
+    ["235/45R19 ZRT",1399],
+    ["225/45R19 ZRT",1299],
+    ["225/40R19 ZRT",1399],
+    ["275/40R18 ZRT",1499],
+    ["255/55R18 ZRT",1399],
+    ["255/40R18 ZRT",1299],
+    ["255/35R18 ZRT",1299],
+    ["245/50R18 ZRT",1299],
+    ["245/45R18 ZRT",1129],
+    ["245/40R18 ZRT",1199],
+    ["235/50R18 ZRT",1099],
+    ["235/55R18 ZRT",1199],
+    ["225/50R18 ZRT",1059],
+    ["225/45R18 ZRT",1099],
+    ["225/40R18 ZRT",1049],
+    ["255/40R17 ZRT",1159],
+    ["225/55R17 ZRT",989],
+    ["225/50R17 ZRT",989],
+    ["225/45R17 ZRT",979],
+    ["205/55R17 ZRT",979],
+    ["205/50R17 ZRT",969]
+  ],
+
+  "SUV": [
+
+    ["275/50R22",2199],["275/55R20 XL",1499],["275/50R20 XL",1399],
+
+    ["265/50R19",1399],["275/50R19 XL",1399],["265/50R19 XL",1199],
+
+    ["255/65R19 XL",1099],["235/60R18",1199],["285/60R18",1199],
+
+    ["265/60R18",1099],["265/65R18",1099],["245/60R18",979],
+
+    ["235/65R18",959],["235/60R18 XL",819],["225/60R18",779],
+
+    ["285/65R17",1199],["265/65R17",1099],["265/60R17",989],
+
+    ["255/65R17",959],["245/65R17",869],["235/65R17",799],
+
+    ["235/60R17",799],["225/65R17",659],["225/60R17",669],
+
+    ["215/70R16",899],["215/65R17",699],["215/60R17",619]
+
+  ],
+
+  "A/T": [
+
+    ["LT285/50R20-10R",929],["P285/65R20",1699],["245/55R19",1499],
+
+    ["285/65R18",1459],["LT265/70R18-10PR",1299],["P265/65R18",1499],
+
+    ["P265/60R18",1299],["LT255/60R18-8PR",1299],["235/65R18",979],
+
+    ["LT235/70R18-6PR",969],["LT285/70R17-10PR",1399],["LT285/70R17-10PR",1459],
+
+    ["P285/65R17",1099],["LT265/70R17-10PR",1299],["LT265/65R17-10PR",1059],
+
+    ["P245/65R17",959],["LT265/70R16-10PR",1099],["LT275/65R16-10PR",1199],
+
+    ["P265/70R16",999],["P255/70R16",999],["LT245/75R16-10PR",1099],
+
+    ["LT245/70R16-10PR",969],["P235/70R16",929],["P215/75R16",829],
+
+    ["P235/75R15",799],["LT235/75R15-6PR",869],["31×10.50R15LT-6PR",899]
+
+  ]
+
+};
+
+
+
+// ===== 产品档案 =====
+
+const PROFILES = {
+
+  "EVPRO": {
+
+    title:"EV PRO 新能源专用版",
+
+    desc:"朝阳一号旗舰新能源轮胎，专为纯电/混动车型打造。内置静音棉+自修复+低滚阻三大升级，<b>全系销量最高</b>。",
+
+    tags:[["静音棉降3-4dB","gr"],["自修复防扎","bl"],["续航提升6-9%","or"]],
+
+    specs:[
+
+      ["耐磨指数","500","全系最高"],
+
+      ["抓地等级","AA","最高级"],
+
+      ["滚阻等级","超A级","电车专属配方"],
+
+      ["制动(100-0)","干地38.1m","湿地43.7m"]
+
+    ],
+
+    tech:[
+
+      "内置聚氨酯静音棉——胎噪再降3-4dB，高速静谧性拉满",
+
+      "自修复功能——胎面6mm以内钉子扎入自动补漏，无需停车",
+
+      "超高承载强化胎体——应对电车自重高扭矩，防变形",
+
+      "湿地制动比标准版再提升3%，纯电续航增益6%-9%"
+
+    ],
+
+    life:"7~8万公里",
+
+    fit:"比亚迪/特斯拉/理想/蔚来等中高端纯电/混动车型"
+
+  },
+
+  "朝阳1号": {
+
+    title:"朝阳1号 经典静音舒适版",
+
+    desc:"中策集团旗舰高端舒适轮胎，<b>对标米其林浩悦4、马牌CC6</b>。顶级静音、超优湿地抓地、低滚阻、抗鼓包。",
+
+    tags:[["静音对标米其林","gr"],["湿地吊打同价位","bl"],["抗鼓包超强","or"]],
+
+    specs:[
+
+      ["耐磨指数","420","家用主力"],
+
+      ["抓地等级","AA","最高级"],
+
+      ["滚阻等级","欧盟A级","节能省油"],
+
+      ["噪音","55.5dB@60km/h","67.8dB@100km/h"],
+
+      ["制动(100-0)","干地38.1m","湿地45m"]
+
+    ],
+
+    tech:[
+
+      "BPOT自适应接地技术——胎面压力分布均匀，磨损更一致",
+
+      "Soundbolt Array消音栓阵——打破噪音波，大幅降低胎噪",
+
+      "3D沟槽互锁花纹——增强刚性，高速稳定不飘",
+
+      "四条加宽直排主沟槽——抗水漂能力极强，雨天信心十足",
+
+      "胎侧柔韧——滤震极佳，家用舒适性一流"
+
+    ],
+
+    life:"5~6万公里",
+
+    fit:"中高端家用轿车/MPV，15-23寸适配"
+
+  },
+
+  "SPORTE": {
+
+    title:"SPORT-E 竞速运动版",
+
+    desc:"赛道级运动操控轮胎，油电通用。<b>干地制动全系最强</b>，过弯支撑性翻倍。",
+
+    tags:[["双AA认证","gr"],["金丝软甲防鼓包","bl"],["干地37.2m","or"]],
+
+    specs:[
+
+      ["耐磨指数","380","运动胎标准"],
+
+      ["抓地等级","双AA","最高认证"],
+
+      ["制动(100-0)","干地37.2m","湿地45.8m"],
+
+      ["配方","双组份赛事级","赛道混合橡胶"]
+
+    ],
+
+    tech:[
+
+      "胎侧添加芳纶纤维（金丝软甲）——极强防鼓包、抗冲击",
+
+      "双组份赛事级橡胶配方——干湿地抓地力双优",
+
+      "花纹块刚性大幅加强——过弯支撑性翻倍，转向精准",
+
+      "高速稳定性极强——适合激烈驾驶"
+
+    ],
+
+    life:"4~5万公里",
+
+    fit:"性能轿车/运动车，宝马3系/奥迪A4/小米SU7等"
+
+  },
+
+  "ZRT": {
+
+    title:"ZRT 缺气保用防爆版",
+
+    desc:"高端安全防爆轮胎，零气压状态下仍可高速行驶。<b>安全+舒适兼得</b>。",
+
+    tags:[["零压行驶80km","gr"],["保留85%舒适","bl"],["奔驰宝马原配","or"]],
+
+    specs:[
+
+      ["耐磨指数","400","坚固耐用"],
+
+      ["防爆标准","80km/h×80km","零气压续航"],
+
+      ["舒适保留","85%","接近标准版"],
+
+      ["湿地性能","几乎无衰减","安全至上"]
+
+    ],
+
+    tech:[
+
+      "加厚型橡胶支撑胎侧——零气压不塌陷",
+
+      "零气压状态：时速80km/h可连续行驶80公里",
+
+      "保留标准版85%静音与舒适，湿地性能几乎无衰减",
+
+      "奔驰、宝马原厂缺气保用轮胎替换首选"
+
+    ],
+
+    life:"5~6万公里",
+
+    fit:"中高端轿车/SUV，宝马/奔驰/奥迪原配升级"
+
+  },
+
+  "SUV": {
+
+    title:"SUV 城市运动版",
+
+    desc:"为城市SUV量身打造，兼顾公路操控与轻度越野。<b>静音舒适+通过性</b>。",
+
+    tags:[["公路静音","gr"],["轻度越野","bl"],["耐磨抗冲击","or"]],
+
+    specs:[
+
+      ["耐磨指数","420","坚固耐用"],
+
+      ["抓地等级","AA","最高级"],
+
+      ["适用","城市SUV","轻度越野"]
+
+    ],
+
+    tech:[
+
+      "大块花纹+强韧胎体——耐磨抗冲击，非铺装路无压力",
+
+      "公路静音表现优秀——不牺牲日常舒适性",
+
+      "特殊胎面配方——兼顾湿地抓地与长里程"
+
+    ],
+
+    life:"5~6万公里",
+
+    fit:"城市SUV/越野车，哈弗H6/坦克300/普拉多等"
+
+  },
+
+  "A/T": {
+
+    title:"A/T 全地形越野版",
+
+    desc:"高端全地形越野轮胎，公路与非铺装路面兼顾。<b>强悍通过性+可靠耐用</b>。",
+
+    tags:[["全地形","gr"],["强悍抓地","bl"],["超强抗穿刺","or"]],
+
+    specs:[
+
+      ["类型","全地形AT胎","公路+越野"],
+
+      ["胎体","加强型","抗穿刺抗冲击"],
+
+      ["适用","硬派越野","长途穿越"]
+
+    ],
+
+    tech:[
+
+      "大块越野花纹——泥地/沙地/碎石路均有强劲抓地力",
+
+      "强韧胎体结构——抗穿刺、抗冲击，极端路面不惧",
+
+      "LT载重等级——适合重载和拖曳",
+
+      "公路噪音控制优秀——长途驾驶不疲劳"
+
+    ],
+
+    life:"6~8万公里",
+
+    fit:"硬派SUV/越野车，坦克300/普拉多/牧马人等"
+
+  }
+
+};
+
+
 
 const LABELS = {
-  EVPRO: "EVPRO (新能源)",
-  "朝阳1号": "朝阳1号 (轿车)",
-  SUV: "SUV",
-  ZRT: "ZRT (性能)",
-  "A/T": "A/T (越野)"
+
+  EVPRO:"EV PRO (新能源)",
+
+  "朝阳1号":"朝阳1号 (轿车)",
+
+  SPORTE:"SPORT-E (运动)",
+
+  ZRT:"ZRT (防爆)",
+
+  SUV:"SUV",
+
+  "A/T":"A/T (越野)"
+
 };
 
+// Need a key mapping because "A/T" key in DATA
+
 const KEYS = Object.keys(DATA);
+
+
+
 let current = "朝阳1号";
+
 let allData = [];
 
+
+
 KEYS.forEach(k => {
-  DATA[k].forEach(d => allData.push({ pattern: k, spec: d[0], price: d[1] }));
+
+  DATA[k].forEach(d => allData.push({pattern:k, spec:d[0], price:d[1]}));
+
 });
 
-function render() {
-  const q = document.getElementById("search").value.trim().toLowerCase();
-  const tbody = document.getElementById("list");
-  const empty = document.getElementById("empty");
-  let items = allData.filter(d => d.pattern === current);
-  if (q) items = items.filter(d => d.spec.toLowerCase().includes(q));
-  tbody.innerHTML = items.map(d => 
-    `<tr><td><span class="pt">${LABELS[current]}</span>${d.spec}</td><td></td><td>¥${d.price}</td></tr>`
-  ).join("");
-  empty.style.display = items.length ? "none" : "block";
-  document.getElementById("stats").textContent = `共 ${items.length} 条规格`;
-  renderTabs();
+
+
+// ===== 渲染 =====
+
+function renderProfile() {
+
+  const p = PROFILES[current];
+
+  if (!p) { document.getElementById("profile-area").innerHTML=""; return; }
+
+  const tags = p.tags.map(t => `<span class="p-tag ${t[1]}">${t[0]}</span>`).join("");
+
+  const specs = p.specs.map(s => `<div class="fb"><strong>${s[1]}</strong>${s[0]}<br><small>${s[2]}</small></div>`).join("");
+
+  const tech = p.tech.map(t => `<li>${t}</li>`).join("");
+
+  document.getElementById("profile-area").innerHTML = `
+
+    <div class="profile">
+
+      <div class="p-title">${p.title} ${tags}</div>
+
+      <div class="p-desc">${p.desc}</div>
+
+      <div class="feature-bar">${specs}</div>
+
+      <ul class="p-bullet">${tech}</ul>
+
+      <div style="margin-top:6px;font-size:12px;color:#666;">📏 实际里程：${p.life} &nbsp;|&nbsp; 🚗 适配：${p.fit}</div>
+
+    </div>`;
+
 }
+
+
+
+function render() {
+
+  const q = document.getElementById("search").value.trim().toLowerCase();
+
+  const tbody = document.getElementById("list");
+
+  const empty = document.getElementById("empty");
+
+  let items = allData.filter(d => d.pattern === current);
+
+  if (q) items = items.filter(d => d.spec.toLowerCase().includes(q));
+
+  tbody.innerHTML = items.map(d =>
+
+    `<tr><td><div class="spec">${d.spec}</div>${CAR_MODELS[d.spec]?'<div class="car-model">'+CAR_MODELS[d.spec]+'</div>':''}</td><td>${CAR_MODELS[d.spec]?'':''}</td><td>¥${d.price}</td></tr>`
+
+  ).join("");
+
+  empty.style.display = items.length ? "none" : "block";
+
+  document.getElementById("stats").textContent = `共 ${items.length} 条规格`;
+
+  renderProfile();
+
+  renderTabs();
+
+}
+
+
 
 function renderTabs() {
+
   const container = document.getElementById("tabs");
+
   container.innerHTML = KEYS.map(k =>
-    `<div class="tab${k === current ? ' active' : ''}" onclick="switchTab('${k}')">${LABELS[k]}</div>`
+
+    `<div class="tab${k===current?' active':''}" onclick="switchTab('${k}')">${LABELS[k]||k}</div>`
+
   ).join("");
+
 }
 
-function switchTab(k) { current = k; render(); }
+
+
+function switchTab(k) { current=k; render(); }
+
+
 
 document.getElementById("search").addEventListener("input", render);
+
+renderTabs();
+
 render();
+
 </script>
+
 </body>
+
 </html>
+
