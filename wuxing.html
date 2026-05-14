@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WUXING · 五行人格</title>
+<style>
+:root{--bg:#fff;--card:#fff;--text:#1a1a1a;--sub:#999;--border:#eae7e3;--O:#5fa85f;--B:#d4755a;--A:#b6977a;--R:#d4a528;--D:#5f9db5;--acc:#c49a6c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.7}
+#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+#splash .dots{display:flex;gap:16px;margin-bottom:32px}
+#splash .dots span{width:44px;height:44px;border-radius:50%}
+#splash h1{font-size:48px;font-weight:200;letter-spacing:20px;color:#222;margin-bottom:14px}
+#splash .sub{font-size:18px;color:var(--sub);max-width:360px;letter-spacing:1px}
+#splash .btn{margin-top:44px;padding:16px 60px;border:none;background:var(--acc);color:#fff;font-size:17px;border-radius:12px;cursor:pointer;letter-spacing:4px;font-family:inherit}
+#splash .btn:hover{opacity:.88;transform:translateY(-2px)}
+#splash .foot{color:var(--sub);font-size:13px;margin-top:22px}
+#app{display:none;max-width:680px;margin:0 auto;padding:32px 20px 60px}
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.topbar .dots{display:flex;gap:6px}.topbar .dots span{width:12px;height:12px;border-radius:50%}
+.topbar .tt{font-size:15px;letter-spacing:4px;flex:1;color:#333}
+.topbar .st{font-size:13px;color:var(--sub)}
+.prog{height:4px;background:#f0eee9;border-radius:4px;overflow:hidden;margin-bottom:32px}
+.prog div{height:100%;background:var(--acc);width:0%;transition:width .4s;border-radius:4px}
+.qg .item{margin-bottom:28px;padding:24px;border-radius:12px;border:1px solid var(--border)}
+.qg .item .qt{font-size:17px;line-height:1.7;margin-bottom:18px;font-weight:400}
+.qg .item .ql{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-bottom:10px}
+.qg .item .qr{display:flex;gap:6px;justify-content:center}
+.qg .item .qr button{width:38px;height:38px;border-radius:50%;border:1px solid #ddd;background:var(--card);cursor:pointer;position:relative}
+.qg .item .qr button:hover{border-color:var(--acc);background:#faf8f5}
+.qg .item .qr button.s{border-width:2px;transform:scale(1.08)}
+.qg .item .qr button .in{width:12px;height:12px;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.qg .item .qr button.s .in{width:16px;height:16px}
+.qg .item .qr button.s.el-O{border-color:var(--O)}.qg .item .qr button.s.el-O .in{background:var(--O)}
+.qg .item .qr button.s.el-B{border-color:var(--B)}.qg .item .qr button.s.el-B .in{background:var(--B)}
+.qg .item .qr button.s.el-A{border-color:var(--A)}.qg .item .qr button.s.el-A .in{background:var(--A)}
+.qg .item .qr button.s.el-R{border-color:var(--R)}.qg .item .qr button.s.el-R .in{background:var(--R)}
+.qg .item .qr button.s.el-D{border-color:var(--D)}.qg .item .qr button.s.el-D .in{background:var(--D)}
+.nav{display:flex;justify-content:space-between;margin-top:28px}
+.nav button{padding:12px 32px;border:1px solid #ddd;border-radius:10px;background:var(--card);cursor:pointer;font-size:14px;font-family:inherit;color:var(--text)}
+.nav button:hover{border-color:var(--acc)}.nav button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.nav button:disabled{opacity:.3;cursor:default}
+/* ── 结果 ── */
+.result-wrap{max-width:800px;margin:0 auto;padding:0 24px 80px}
+.res-header{background:linear-gradient(135deg,#b6977a,#c49a6c);color:#fff;text-align:center;padding:48px 24px 36px;margin:0 -24px}
+.res-header .code{font-size:56px;font-weight:200;letter-spacing:12px;color:#fff}
+.res-header .sub{font-size:16px;color:rgba(255,255,255,.85);margin-top:8px;letter-spacing:3px}
+.res-header .state{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px;letter-spacing:2px}
+.type-O .res-quote{color:var(--O)!important}.type-B .res-quote{color:var(--B)!important}.type-A .res-quote{color:var(--A)!important}.type-R .res-quote{color:var(--R)!important}.type-D .res-quote{color:var(--D)!important}
+.res-quote{text-align:center;padding:36px 24px;font-size:24px;line-height:1.9;color:#666;font-style:italic;border-bottom:1px solid var(--border);margin-bottom:28px;font-weight:500}
+/* ── 卡片区块 ── */
+.res-section{border-left:5px solid var(--accent);margin-bottom:28px;background:#faf9f7;border-radius:0 8px 8px 0;padding:18px 20px 20px 24px}
+.res-section:first-of-type{background:#fff}.res-section:nth-child(odd){background:#fff}
+.res-section h2{font-size:17px;font-weight:600;color:#222;letter-spacing:2px;padding-bottom:10px;margin-bottom:14px;border-bottom:2px solid #f0eee9;display:flex;align-items:center;gap:10px}
+.res-section h2 .h2-icon{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0;font-weight:700}
+.res-section p{font-size:16px;line-height:2;color:#444;white-space:pre-wrap}
+/* ── 能量分布 ── */
+.rsl{display:flex;flex-direction:column;gap:14px;padding:8px 0}
+.rsl .rw{display:flex;align-items:center;gap:14px}
+.rsl .rw .lb{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.rsl .rw .tr{flex:1;height:12px;background:#f0eee9;border-radius:8px;overflow:hidden}
+.rsl .rw .tr .fl{height:100%;border-radius:8px;transition:width .8s}
+.rsl .rw .pv{width:36px;text-align:right;font-size:14px;color:#999;flex-shrink:0;font-weight:500}
+/* 15维 */
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.dgrid .dc{border-radius:8px;padding:12px 14px}
+.dgrid .dc .dlb{font-size:12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.dgrid .dc .dlb .dn{font-weight:600;font-size:13px}.dgrid .dc .dlb span{color:#999;font-size:11px}
+.dgrid .dc .dtr{height:5px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden}
+.dgrid .dc .dtr .df{height:100%;border-radius:3px;transition:width .8s}
+/* 名人 */
+.fg{display:flex;gap:10px;flex-wrap:wrap}
+.fg .fc{display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:10px;border:1px solid var(--border);font-size:14px}
+.fg .fc .fa{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff}
+.fg .fc .fn{line-height:1.4;font-weight:500}.fg .fc .fn .ft{font-size:11px;color:var(--sub);font-weight:400}
+.rb{display:block;margin:40px auto;padding:14px 40px;border:2px solid var(--accent);background:transparent;color:var(--accent);border-radius:10px;cursor:pointer;font-size:14px;letter-spacing:3px;font-family:inherit}
+.rb:hover{background:var(--accent);color:#fff}
+/* 转化路径 */
+.transform-box{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.tb-row{display:flex;padding:14px 18px;gap:14px;align-items:flex-start}
+.tb-row+.tb-row{border-top:1px solid var(--border)}
+.tb-tag{flex-shrink:0;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;letter-spacing:1px;min-width:48px;text-align:center}
+.tb-tag.ok{background:var(--O)}
+.tb-tag.ko{background:var(--A)}
+.tb-tag.go{background:var(--B)}
+.tb-body{flex:1;font-size:15px;line-height:1.7;color:#444}
+/* 类型主题色 */
+.type-O{--accent:#5fa85f}.type-O .res-header{background:linear-gradient(135deg,#5fa85f,#4a8a4a)}
+.type-B{--accent:#d4755a}.type-B .res-header{background:linear-gradient(135deg,#d4755a,#c06045)}
+.type-A{--accent:#b6977a}.type-A .res-header{background:linear-gradient(135deg,#b6977a,#a08060)}
+.type-R{--accent:#d4a528}.type-R .res-header{background:linear-gradient(135deg,#d4a528,#b08820)}
+.type-D{--accent:#5f9db5}.type-D .res-header{background:linear-gradient(135deg,#5f9db5,#4080a0)}
+.type-O .res-header{background:linear-gradient(135deg,#5fa85f,#4a8a4a)}
+.type-B .res-header{background:linear-gradient(135deg,#d4755a,#c06045)}
+.type-A .res-header{background:linear-gradient(135deg,#b6977a,#a08060)}
+.type-R .res-header{background:linear-gradient(135deg,#d4a528,#b08820)}
+.type-D .res-header{background:linear-gradient(135deg,#5f9db5,#4080a0)}
+
+.transform-box{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.tb-row{display:flex;padding:16px 20px;gap:16px;align-items:flex-start}
+.tb-row+.tb-row{border-top:1px solid var(--border)}
+.tb-tag{flex-shrink:0;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:600;color:#fff;letter-spacing:1px;min-width:52px;text-align:center}
+.tb-tag.ok{background:var(--O)}
+.tb-tag.ko{background:#c49a6c}
+.tb-tag.go{background:var(--B)}
+.tb-body{flex:1;font-size:15px;line-height:1.7;color:#444}
+.tb-body strong{color:#222}
+@media(max-width:480px){.result-wrap{padding:0 14px 60px}.res-header{padding:36px 16px 28px;margin:0 -14px}.res-header .code{font-size:40px}.res-quote{font-size:17px;padding:24px 16px}}
+</style>
+</head>
+<body>
+<div id="splash">
+  <div class="dots"><span style="background:var(--O)"></span><span style="background:var(--B)"></span><span style="background:var(--A)"></span><span style="background:var(--R)"></span><span style="background:var(--D)"></span></div>
+  <h1>五 行</h1>
+  <p class="sub">了解你此刻的能量状态</p>
+  <button class="btn" onclick="go()">开始测试</button>
+  <div class="foot">30 道题 · 约 6 分钟</div>
+</div>
+<div id="app">
+  <div class="topbar"><div class="dots"><span style="background:var(--O)"></span><span style="background:var(--B)"></span><span style="background:var(--A)"></span><span style="background:var(--R)"></span><span style="background:var(--D)"></span></div><div class="tt">五 行</div><div class="st" id="step">1 / 30</div></div>
+  <div class="prog"><div id="prog"></div></div>
+  <div id="qwrap"></div>
+  <div class="nav">
+    <button id="prevBtn" onclick="prevPage()">上一组</button>
+    <button id="nextBtn" class="pri" onclick="nextPage()">下一组</button>
+  </div>
+</div>
+<div id="res" style="display:none"></div>
+<script>var QQ=[{id:0,t:'周末早上如果能自然醒，感觉很幸福。',w:{A:2}},{id:1,t:'朋友突然约饭，我会很爽快地答应。',w:{B:2,O:1}},{id:2,t:'刷手机时经常刷着刷着就忘了时间。',w:{O:2}},{id:3,t:'我喜欢把房间收拾得整整齐齐。',w:{R:2,A:1}},{id:4,t:'下雨天待在家里让我觉得很安心。',w:{A:2,D:1}},{id:5,t:'做饭对我来说更像一件麻烦事。',w:{B:1}},{id:6,t:'出门旅行我更喜欢随心走，不赶景点。',w:{O:2}},{id:7,t:'点菜时我经常纠结很久。',w:{D:2}},{id:8,t:'和人聊天时我更习惯听而不是说。',w:{D:1,A:1}},{id:9,t:'早上起来我一般很快就进入状态。',w:{B:2,R:1}},{id:10,t:'了解新领域时我喜欢系统性学。',w:{R:2,A:1}},{id:11,t:'我经常被各种新奇的idea吸引。',w:{O:2}},{id:12,t:'做决定前我会尽可能多收集信息。',w:{R:2,D:1}},{id:13,t:'我经常靠直觉做决定，而且挺准的。',w:{B:2,O:1}},{id:14,t:'做决定时我会考虑身边人的感受。',w:{A:2}},{id:15,t:'我享受按计划一步步推进的成就感。',w:{R:2,A:1}},{id:16,t:'我经常同时做几件事，换着来。',w:{O:2,B:1}},{id:17,t:'做事时我容易沉浸进去忘记时间。',w:{D:2}},{id:18,t:'我在陌生场合能比较快地融入。',w:{B:2}},{id:19,t:'我更享受小圈子深度的交流。',w:{D:2,A:1}},{id:20,t:'压力大的时候我会更想一个人待着。',w:{D:2}},{id:21,t:'压力下我会变得特别在意细节。',w:{R:2}},{id:22,t:'被人否定时我第一反应是防御。',w:{B:2}},{id:23,t:'被否定后我会反复回想，自我怀疑。',w:{D:2,O:1}},{id:24,t:'面对冲突我倾向于回避。',w:{A:2}},{id:25,t:'我相信规则能给人自由。',w:{R:2}},{id:26,t:'我觉得人生重要的体验而不是结果。',w:{O:2,B:1}},{id:27,t:'我更在意一件事的长期价值。',w:{R:1,D:2}},{id:28,t:'我觉得自己还有很多没发现的潜力。',w:{O:2}},{id:29,t:'我经常反思自己的行为模式。',w:{D:2}}];
+var E={O:{cn:'木',en:'Originate',clr:'#5fa85f',d3:[{n:'好奇心',q:[2,11,28]},{n:'创造力',q:[6,16,26]},{n:'灵活性',q:[1,11,16]}],fam:[['乔布斯','创新者','#d47a60'],['达芬奇','通才','#6bad6b'],['宫崎骏','想象力','#5f9db5'],['李白','诗仙','#d4a528'],['贝多芬','作曲家','#c49a6c'],['特斯拉','发明家','#5f9db5'],['李白','诗仙','#d4a528'],['贝多芬','作曲家','#c49a6c'],['特斯拉','发明家','#5f9db5'],['李白','诗仙','#d4a528'],['贝多芬','作曲家','#c49a6c'],['特斯拉','发明家','#5f9db5']]},B:{cn:'火',en:'Blaze',clr:'#d4755a',d3:[{n:'行动力',q:[9,13,18]},{n:'感染力',q:[1,9,18]},{n:'热情度',q:[5,13,22]}],fam:[['马云','演说家','#d47a60'],['川普','斗士','#c49a6c'],['Lady Gaga','表演者','#ba9b80'],['拿破仑','征服者','#6bad6b'],['丘吉尔','战时领袖','#5f9db5'],['迈克尔·乔丹','竞技之王','#d4755a'],['拿破仑','征服者','#6bad6b'],['丘吉尔','战时领袖','#5f9db5'],['迈克尔·乔丹','竞技之王','#d4755a'],['拿破仑','征服者','#6bad6b'],['丘吉尔','战时领袖','#5f9db5'],['迈克尔·乔丹','竞技之王','#d4755a']]},A:{cn:'土',en:'Anchor',clr:'#b6977a',d3:[{n:'包容力',q:[8,14,24]},{n:'协调性',q:[0,8,14]},{n:'持续性',q:[3,4,15]}],fam:[['特蕾莎','守护者','#ba9b80'],['诸葛亮','辅佐者','#7e93a8'],['稻盛和夫','经营家','#c49a6c'],['曾国藩','中流砥柱','#a08060'],['甘地','非暴力','#5f9db5'],['杜甫','诗史','#d47a60'],['曾国藩','中流砥柱','#a08060'],['甘地','非暴力','#5f9db5'],['杜甫','诗史','#d47a60'],['曾国藩','中流砥柱','#a08060'],['甘地','非暴力','#5f9db5'],['杜甫','诗史','#d47a60']]},R:{cn:'金',en:'Refine',clr:'#d4a528',d3:[{n:'逻辑性',q:[10,12,27]},{n:'秩序感',q:[3,15,25]},{n:'精确度',q:[10,12,21]}],fam:[['马斯克','系统构建','#7e93a8'],['爱因斯坦','理论家','#5f9db5'],['香农','信息论之父','#6bad6b'],['比尔·盖茨','技术远见','#5fa85f'],['巴菲特','价值投资者','#b6977a'],['冯·诺依曼','计算机之父','#d4a528'],['比尔·盖茨','技术远见','#5fa85f'],['巴菲特','价值投资者','#b6977a'],['冯·诺依曼','计算机之父','#d4a528'],['比尔·盖茨','技术远见','#5fa85f'],['巴菲特','价值投资者','#b6977a'],['冯·诺依曼','计算机之父','#d4a528']]},D:{cn:'水',en:'Depth',clr:'#5f9db5',d3:[{n:'反思力',q:[23,29,7]},{n:'洞察力',q:[4,8,17]},{n:'沉淀力',q:[17,19,27]}],fam:[['老子','哲人','#5f9db5'],['村上春树','作家','#6bad6b'],['王阳明','心学家','#ba9b80'],['苏格拉底','提问者','#d47a60'],['卡夫卡','孤独者','#b6977a'],['鲁迅','清醒者','#d4a528'],['苏格拉底','提问者','#d47a60'],['卡夫卡','孤独者','#b6977a'],['鲁迅','清醒者','#d4a528'],['苏格拉底','提问者','#d47a60'],['卡夫卡','孤独者','#b6977a'],['鲁迅','清醒者','#d4a528']]}};
+var GEN={O:'B',B:'A',A:'R',R:'D',D:'O'},CON={O:'A',B:'R',A:'D',R:'O',D:'B'};
+var ANSW={},PAGE=0;
+function go(){document.getElementById('splash').style.display='none';document.getElementById('app').style.display='block';renderPage(0)}
+function elForQ(q){var w=q.w||{},best,k;for(k in w){if(!best||w[k]>w[best])best=k}return best||'N'}
+function renderPage(p){PAGE=p;var from=p*4,to=Math.min(from+4,30);document.getElementById('step').textContent=(from+1)+'-'+to+' / 30';document.getElementById('prog').style.width=(to/30*100)+'%';document.getElementById('prevBtn').disabled=p===0;document.getElementById('nextBtn').textContent=to>=30?'查看结果':'下一组';var h='';for(var i=from;i<to;i++){var q=QQ[i],sel=ANSW[i],el=elForQ(q);h+='<div class="qg active"><div class="item"><div class="qt">'+(i+1)+'. '+q.t+'</div><div class="ql"><span>不同意</span><span>不确定</span><span>同意</span></div><div class="qr">';for(var v=-3;v<=3;v++){h+='<button class="btn'+(sel===v?' s el-'+el:'')+'" onclick="pick('+i+','+v+',this)"><div class="in"></div></button>';}h+='</div></div></div>';}document.getElementById('qwrap').innerHTML=h;}
+function pick(qi,v,btn){ANSW[qi]=v;var btns=btn.parentNode.querySelectorAll('button');for(var i=0;i<btns.length;i++)btns[i].className='btn';btn.className='btn s el-'+elForQ(QQ[qi]);}
+function nextPage(){var from=PAGE*4,to=Math.min(from+4,30);for(var i=from;i<to;i++){if(ANSW[i]===undefined){alert('还有题目没答完～');return}}if(to>=30){showRes();return}renderPage(PAGE+1);window.scrollTo(0,0)}
+function prevPage(){if(PAGE>0)renderPage(PAGE-1);window.scrollTo(0,0)}
+function score(){var s={O:0,B:0,A:0,R:0,D:0},cnt={O:0,B:0,A:0,R:0,D:0};for(var i=0;i<QQ.length;i++){var v=ANSW[i];if(v===undefined||v===null)continue;var q=QQ[i];for(var k in q.w){s[k]+=q.w[k]*v;cnt[k]+=Math.abs(q.w[k])}}var p={};var mx=-1,mn=101;for(var k in s){p[k]=cnt[k]?Math.round(((s[k]/cnt[k])+3)/6*100):50;if(p[k]>mx)mx=p[k];if(p[k]<mn)mn=p[k];}if(mx-mn<5){var shift=Math.max(0,30-mn);for(var k in p){p[k]=Math.round(Math.min(100,Math.max(5,p[k]+shift)));}}return p;}
+function dimScores(){var r={};for(var k in E){var el=E[k];for(var j=0;j<el.d3.length;j++){var d=el.d3[j];var sc=0,cnt=0;for(var q=0;q<d.q.length;q++){var qid=d.q[q];var ans=ANSW[qid];if(ans!==undefined&&ans!==null){var wt=QQ[qid].w[k]||1;sc+=((Number(ans)+3)/6)*100*wt;cnt+=wt;}}r[k+'_'+j]=cnt>0?Math.round(sc/cnt):50;}}return r;}
+function showRes(){document.getElementById('app').style.display='none';document.getElementById('res').style.display='block';
+var p=score(),ds=dimScores();var ks=Object.keys(p).sort(function(a,b){return p[b]-p[a]}),pr=ks[0],sc=ks[1],sp=p[ks[0]]-p[ks[3]];var st=sp<18?'H':p[pr]>58?'A':(CON[pr]===sc||CON[sc]===pr)?'C':p[GEN[pr]]>30?'H':'T';var stn={H:'和谐',A:'过旺',C:'冲突',T:'转化'};var stnEn={H:'Harmony',A:'Abundance',C:'Conflict',T:'Transition'};
+// 20 combo tags (5 elements x 4 states)
+var tags={O_H:'你是一颗随时准备发芽的种子。不要把自己种在花盆里。',O_A:'你的生命里同时住着春天和秋天。发芽和凋零交替，都是自然。',O_C:'你的创造力与结构在打架。不是你有问题，是系统在重新找平衡。',O_T:'你正从想象者变成实现者。这个转化需要结构（金）来承接。',B_H:'你是一团不灭的火。但火需要炉子才能变成能量。',B_A:'你的火焰太大了。不是你的错，是燃料太多但缺乏出口。',B_C:'你的冲劲与规则在对抗。火需要边界才能照亮房间，而不是烧掉它。',B_T:'你正在从冲动的行动者变成有策略的推动者。停下来不是退缩，是瞄准。',A_H:'你是一片耕种过的土地。休耕是为了更好地生长。',A_A:'你太稳了。稳得让周围的人忘记了你的存在——包括你自己。',A_C:'你的稳定与你的深度在拉锯。不是矛盾，是大地与深水的对话。',A_T:'你正在从守护者变成建设者。框架会让你更自由。',R_H:'你是一座精心设计的建筑。但建筑需要人在里面生活。',R_A:'你太相信逻辑了。世界有一半的事不是“对”的，是“对的时机”。',R_C:'你的结构冲动与你的创造冲动在较劲。杰作往往诞生于这种张力。',R_T:'你正从分析者变成设计者。好的结构不是限制，是解放。',D_H:'你是一口深井。井水需要被打上来才能解渴。',D_A:'你想得太深了。深到连自己都找不到出口。需要行动（火）来照亮。',D_C:'你的深度与你的对外表现在对抗。内向不是问题，不出声才是。',D_T:'你正从观察者变成参与者。待在岸边看了一辈子，该下水了。'};
+// 25 primary+secondary combo descriptions
+var patternDesc={O_B:'木生火——想法催生行动。你的创造力需要出口，而火正好是那个出口。',O_A:'木克土——你的生长冲动在挑战你的稳定需求。这不是矛盾，是你在长大。',O_R:'木被金克——你的创意被结构约束。但好的限制能产生好的自由。',O_D:'水生木——深度滋养创造力。你是一个能从内在挖掘出灵感的人。',B_A:'火生土——行动力在为你建造安定的根基。你的冲动正在变成可靠。',B_R:'火克金——你的热情在融化僵硬的规则。规矩是死的，你是活的。',B_O:'木生火——你的创造力在点燃你的行动。你是一个有方向感的行动者。',B_D:'水克火——你的深度在克制你的冲动。不是压抑，是节奏感。',A_R:'土生金——稳定在催生结构。你的包容性正在转变为清晰的框架。',A_D:'土克水——你的稳定感在约束你的深度。平衡一下会更好。',A_O:'木克土——想法太多让你不安。不是你不够好，是你在生长。',A_B:'火生土——激情在为你筑基。你正在从热闹中找到自己的位置。',R_D:'金生水——结构通向深度。你擅长的逻辑正在帮你走向本质。',R_O:'金克木——你的规则意识在压制创造力。偶尔打破一下不会塌。',R_B:'火克金——你的行动力在融化你过度的规划。有时候跑起来比想清楚重要。',R_A:'土生金——稳定让你变得更好。你的耐心正在变成你最好的工具。',D_O:'水生木——深度激发创造。你的思考不是空转，是在为未来蓄力。',D_B:'水克火——你的沉静在平衡你的冲动。这是你最大的内在智慧。',D_A:'土克水——结构在帮你沉淀。你需要的不是更多想法，是更好的容器。',D_R:'金生水——你的秩序感在深化你的思考。你正在从“知道”走向“理解”。'};
+var typeCl=E[pr].cn+E[sc].cn+'-'+st;var comboKey=pr+'_'+sc;
+var h='<div class="res-header"><div class="code">'+typeCl+'</div><div class="sub">'+E[pr].cn+'主 · '+E[sc].cn+'辅</div><div class="state">'+stn[st]+' · '+stnEn[st]+'</div></div><div class="res-quote">'+(tags[pr+'_'+st]||tags[pr+'_H'])+'</div>';
+h+='<div class="result-wrap"><div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">E</span>能量分布</h2><div class="rsl">';
+for(var i=0;i<ks.length;i++){var k=ks[i],v=p[k];h+='<div class="rw"><span class="lb" style="background:'+E[k].clr+'">'+k+'</span><div class="tr"><div class="fl" style="width:'+v+'%;background:'+E[k].clr+'"></div></div><span class="pv">'+v+'%</span></div>';}
+h+='</div></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">W</span>五行是什么</h2><p>五行不是算命，是一套能量流动的语言。</p><p>'+E.O.cn+' · Originate 生长。像春天的树。你有想法、有好奇心。<br>'+E.B.cn+' · Blaze 行动。像夏天的太阳。你行动快、有感染力。<br>'+E.A.cn+' · Anchor 稳定。像大地。你包容、可靠。<br>'+E.R.cn+' · Refine 结构。像金属的框架。你有条理、讲逻辑。<br>'+E.D.cn+' · Depth 深度。像深潭。你爱思考、追求本质。</p><p>每个人体内五种能量都在，只是流量不同。</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">G</span>格局</h2><p>'+E[pr].cn+'为主，'+E[sc].cn+'为辅 · 状态：'+stn[st]+'<br><br>核心格局：'+(patternDesc[comboKey]||E[pr].cn+'生'+E[GEN[pr]].cn+'——'+E[pr].cn+'的能量流向'+E[GEN[pr]].cn)+'<br><br>辅行解读：'+E[sc].cn+'为次。你的'+E[pr].cn+'能量带'+E[sc].cn+'的色调，这让你与纯'+E[pr].cn+'型的人有微妙差别——'+scSubDesc(pr,sc)+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">P</span>15 维剖面</h2><div class="dgrid">';for(var k in E){var el=E[k];for(var j=0;j<el.d3.length;j++){var d=el.d3[j],dv=ds[k+'_'+j];h+='<div class="dc" style="background:'+E[k].clr+'15"><div class="dlb"><span class="dn">'+d.n+'</span><span>'+dv+'%</span></div><div class="dtr"><div class="df" style="width:'+dv+'%;background:'+E[k].clr+'"></div></div></div>';}}h+='</div></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">F</span>能量交互</h2><p>'+energyDesc(pr,sc)+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">M</span>认知属性</h2><p>'+cogs[pr]+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">S</span>系统位置</h2><p>'+sysPos(pr,sc)+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">K</span>生克关系</h2><p>'+shengke(pr,p)+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">T</span>转化路径</h2><div class="transform-box">'+transformBox(pr,p)+'</div></div>';
+// Famous people: 2 from primary + 1 from secondary
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">C</span>你可能认识</h2><div class="fg">';var fam=E[pr].fam;var famSc=E[sc].fam;var emos={O:'🌱',B:'🔥',A:'⛰',R:'💎',D:'💧'};var picked=[];var seen={};
+pickFam(fam,0,2,seen,picked);pickFam(famSc,1,1,seen,picked);
+for(var i=0;i<picked.length;i++){h+='<div class="fc"><div class="fa" style="background:'+picked[i][2]+'">'+emos[pr]+'</div><div class="fn">'+picked[i][0]+'<div class="ft">'+picked[i][1]+'</div></div></div>';}
+h+='</div></div>';
+h+='<div style="text-align:center;margin:32px 0 20px"><a href="wuxing-detail.html" style="display:inline-block;padding:12px 32px;border:2px solid var(--accent);color:var(--accent);border-radius:10px;text-decoration:none;font-size:14px;letter-spacing:2px;">📖 深入了解五行 →</a></div>';
+h+='<button class="rb" onclick="location.reload()">重新测评</button></div>';
+document.getElementById('res').className='type-'+pr;document.getElementById('res').innerHTML=h;setTimeout(function(){window.scrollTo(0,50)},50);}
+
+var cogs={O:'你从可能性出发。一个想法能带出十个，十个能带出一个方向。但有选择困难不是软弱——是你在保护可能性。你的挑战不是少想，是在花园里先选一块地挖下去。',B:'你从行动出发。你相信做中学，是团队里第一个说「先试试」的人。但偶尔会为了行动而行动。你从不在原地后悔，因为往前走了就有答案。',A:'你从关系出发。对人和氛围的变化有雷达般的敏感。但你太擅长照顾别人而不太会照顾自己。你的盲区不是能力，是边界。',R:'你从结构出发。擅长拆解，别人慌乱时你已经在列清单。但你会错过不合逻辑却珍贵的机会——不是所有事都该先理解再去感受。',D:'你从本质出发。读书慢是因为在消化和重建。但容易陷入知识瘫痪。你需要的不是更多信息，是一个出口。'};
+function scSubDesc(pr,sc){var m={O:{B:'木带火的温暖——不是空想家，而是有行动力的创造者。',A:'木带土的稳健——你的创意不是空中楼阁，能落地。',R:'木带金的秩序——你有框架感的创造力，在混乱中找到结构。',D:'木带水的深邃——你的灵感有根，不是飘着的。'},B:{O:'火带木的生长力——你的行动不是盲目的，有方向感。',A:'火带土的持久——你的热情不是三分钟热度，能烧很久。',R:'火带金的节奏——你有纪律的行动者，不是莽夫。',D:'火带水的反思——你有冲劲但也懂得往回看，难得的平衡。'},A:{O:'土带木的生长——你稳中求变，不像纯土那样死板。',B:'土带火的温度——你的稳定不冰冷，能给周围人安全感。',R:'土带金的条理——你不仅有包容力，还有清晰的边界。',D:'土带水的深度——你的稳重不肤浅，下面有东西。'},R:{O:'金带木的灵活——你有框架但不僵化，能在边界内创造。',B:'金带火的激情——你的逻辑有温度，不冷冰冰。',A:'金带土的包容——你的规则有弹性，不是死教条。',D:'金带水的深度——你的思维不止于表面，能扎根。'},D:{O:'水带木的生长力——你的思考是活的，不是死水一潭。',B:'水带火的温度——你有深度但不孤僻，能与人连接。',A:'水带土的稳定——你的深度有根基，不是飘着的。',R:'水带金的条理——你的深思有结构，不陷入混乱。'}};return (m[pr]&&m[pr][sc])||'在两种能量的交汇处，你的特质比单一类型更丰富。';}
+function energyDesc(pr,sc){var ch=GEN[pr],co=CON[pr];var combo_tips={O_B:'你有很多想法（木），并且行动力（火）够强能把它们做出来。但小心跑得太快——需要给自己加一点结构（金）来筛选优先级。',O_A:'你有创造力（木）也有稳定性（土），但土克木——你可能会因为求稳而不敢冒险。想想上次因为再想想而错过的机会。',O_R:'你的想法（木）正在被结构（金）制约。但有些事没有按理说也能做成。',O_D:'深度（水）滋养你的创造力（木）。你是一个能从内在源源不断汲取灵感的人。问题是：输出够不够多？',B_O:'你行动快（火），想法也很多（木）。这个组合能量充沛，但容易散——需要聚焦。',B_A:'你的行动力（火）在为你打地基（土）。最聪明的勤奋不是一直冲，是知道什么时候该停下来。',B_R:'你干得快（火），但规则（金）偶尔拖住你。不是每件事都需要先搞清楚再做。',B_D:'你的激情（火）被深度（水）克制。这其实是一种天赋——你不是冲动的人，你有节奏感。',A_O:'你很稳（土），但想法太多（木）让你不太安分。这不是坏事——你正在生长的信号。',A_B:'你的稳定（土）来自过去的行动（火）。你在为未来的爆发积蓄能量。',A_R:'稳定（土）催生结构（金）。你不再满足于还行，开始追求更好的系统。',A_D:'你稳（土）也深（水），但土克水——太稳了反而限制了自己的深度。下水试试水温。',R_O:'你的结构（金）在约束你的创造力（木）。偶尔不按计划来，天不会塌。',R_B:'逻辑（金）和行动（火）在你的体内交战。最好的状态是：用逻辑规划，用行动执行。',R_A:'你正在把规则（金）变成习惯（土）。这是从知道到成为的过程。',R_D:'结构（金）通向深度（水）。你不满足于表面答案，想搞清楚背后的为什么。',D_O:'你的深度（水）在滋养创造力（木）。突然冒出的灵感不是走神——是你想得够深了。',D_B:'你的沉静（水）在平衡冲动（火）。这是你最大的内在智慧。',D_A:'你深（水）也稳（土），但土克水——太稳了会让你的深度找不到出口。需要一点行动（火）来推动。',D_R:'深度（水）与结构（金）在一起。你既有深度又有条理，这是很强的组合，但小心过度分析。'};
+return '主链：'+E[pr].cn+'→ '+E[ch].cn+'→ '+E[GEN[ch]].cn+'
+
+盲区：'+E[pr].cn+' 克 '+E[co].cn+'
+
+'+(combo_tips[pr+'_'+sc]||'你正在两种能量的交汇处找到自己的节奏。');}
+function sysPos(pr,sc){var combo={O_B:'你的创造力正在点燃行动。你不是纸上谈兵的人。',O_A:'你的创意正在寻找土壤。先种下一颗，别急着播种整个花园。',O_R:'你的灵感需要容器来承载。一个好的框架比一百个想法更有价值。',O_D:'你在深度中汲取养分。独处不是逃避，是充电。',B_O:'你的行动力正在被想法滋养。你是一个有方向的推动者。',B_A:'你的热情正在为你建立安全感。打好地基再往上盖。',B_R:'你的行动力正在寻找节奏。纪律不是束缚，是让你跑得更远的跑道。',B_D:'你的冲动正在被沉淀。最好的行动不是最快的行动。',A_O:'你的稳定感在接纳新的可能性。不是所有的变动都值得恐慌。',A_B:'你的根基已经稳固。下一步是生长。',A_R:'你从稳定走向结构。好系统能让你事半功倍。',A_D:'你的稳重正在往深处扎根。别怕深，那是你独有的优势。',R_O:'你的框架在容纳创造力。最好的结构是有弹性的。',R_B:'你的规划正在被行动激活。完美的计划不如一次执行。',R_A:'你的规则在变成习惯。这是最高级的自律。',R_D:'你的逻辑正在导向本质。你不只是聪明，你是通透。',D_O:'你的深度正在变成灵感。所有的思考都不会白费。',D_B:'你的沉静中藏着力量。不是无动于衷，是在等待最好的时机。',D_A:'你的深度需要和世界连接。走出来的想法才是活的。',D_R:'你的深思正在形成体系。你在构建自己的思想大厦。'};return combo[pr+'_'+sc]||E[pr].cn+E[sc].cn+'的组合让你独一无二，继续探索吧。';}
+function pickFam(arr,start,n,seen,picked){for(var c=0;c<3;c++){var fi=(start+c)%arr.length;if(!seen[fi]&&picked.length<n){seen[fi]=1;picked.push(arr[fi]);}}}
+
+</script>
+</body>
+</html>
