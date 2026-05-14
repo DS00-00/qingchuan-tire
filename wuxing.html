@@ -152,6 +152,7 @@ for(var i=0;i<ks.length;i++){var k=ks[i],v=p[k];h+='<div class="rw"><span class=
 h+='</div></div>';
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">W</span>五行是什么</h2><p>五行不是算命，是一套能量流动的语言。</p><p>'+E.O.cn+' · Originate 生长。像春天的树。你有想法、有好奇心。<br>'+E.B.cn+' · Blaze 行动。像夏天的太阳。你行动快、有感染力。<br>'+E.A.cn+' · Anchor 稳定。像大地。你包容、可靠。<br>'+E.R.cn+' · Refine 结构。像金属的框架。你有条理、讲逻辑。<br>'+E.D.cn+' · Depth 深度。像深潭。你爱思考、追求本质。</p><p>每个人体内五种能量都在，只是流量不同。</p></div>';
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">G</span>格局</h2><p>'+E[pr].cn+'为主，'+E[sc].cn+'为辅 · 状态：'+stn[st]+'<br><br>核心格局：'+(patternDesc[comboKey]||E[pr].cn+'生'+E[GEN[pr]].cn+'——'+E[pr].cn+'的能量流向'+E[GEN[pr]].cn)+'<br><br>辅行解读：'+E[sc].cn+'为次。你的'+E[pr].cn+'能量带'+E[sc].cn+'的色调，这让你与纯'+E[pr].cn+'型的人有微妙差别——'+scSubDesc(pr,sc)+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">X</span>后缀解读</h2><p>'+suffixDesc[st]+'</p></div>';
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">P</span>15 维剖面</h2><div class="dgrid">';for(var k in E){var el=E[k];for(var j=0;j<el.d3.length;j++){var d=el.d3[j],dv=ds[k+'_'+j];h+='<div class="dc" style="background:'+E[k].clr+'15"><div class="dlb"><span class="dn">'+d.n+'</span><span>'+dv+'%</span></div><div class="dtr"><div class="df" style="width:'+dv+'%;background:'+E[k].clr+'"></div></div></div>';}}h+='</div></div>';
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">F</span>能量交互</h2><p>'+energyDesc(pr,sc)+'</p></div>';
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">M</span>认知属性</h2><p>'+cogs[pr]+'</p></div>';
@@ -162,7 +163,9 @@ h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--a
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">C</span>你可能认识</h2><div class="fg">';var fam=E[pr].fam;var famSc=E[sc].fam;var emos={O:'🌱',B:'🔥',A:'⛰',R:'💎',D:'💧'};var picked=[];var seen={};
 pickFam(fam,0,2,seen,picked);pickFam(famSc,1,1,seen,picked);
 for(var i=0;i<picked.length;i++){h+='<div class="fc"><div class="fa" style="background:'+picked[i][2]+'">'+emos[pr]+'</div><div class="fn">'+picked[i][0]+'<div class="ft">'+picked[i][1]+'</div></div></div>';}
-h+='</div></div>';
+h+='</div></div>'
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">A</span>成长建议</h2><p>'+growthAdvice(pr,st)+'</p></div>';
+;
 h+='<div style="text-align:center;margin:32px 0 20px"><a href="wuxing-detail.html" style="display:inline-block;padding:12px 32px;border:2px solid #333;color:#333;font-weight:600;border-radius:10px;text-decoration:none;font-size:14px;letter-spacing:2px;">📖 深入了解五行 →</a></div>';
 h+='<button class="rb" onclick="location.reload()">重新测评</button></div>';
 document.getElementById('res').className='type-'+pr;document.getElementById('res').innerHTML=h;setTimeout(function(){window.scrollTo(0,50)},50);}
