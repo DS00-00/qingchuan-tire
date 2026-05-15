@@ -349,7 +349,7 @@ body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Noto Sans SC',san
   <button class="btn" onclick="go()">开始测试</button>
 
 
-  <div class="foot">200 道题 · 约 6 分钟</div>
+  <div class="foot">30 道题 · 约 2 分钟</div>
 
 
 </div>
@@ -358,7 +358,7 @@ body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Noto Sans SC',san
 <div id="app">
 
 
-  <div class="topbar"><div class="dots"><span style="background:var(--O)"></span><span style="background:var(--B)"></span><span style="background:var(--A)"></span><span style="background:var(--R)"></span><span style="background:var(--D)"></span></div><div class="tt">五 行</div><div class="st" id="step">1 / 200</div></div>
+  <div class="topbar"><div class="dots"><span style="background:var(--O)"></span><span style="background:var(--B)"></span><span style="background:var(--A)"></span><span style="background:var(--R)"></span><span style="background:var(--D)"></span></div><div class="tt">五 行</div><div class="st" id="step">1 / 30</div></div>
 
 
   <div class="prog"><div id="prog"></div></div>
@@ -403,13 +403,13 @@ function go(){document.getElementById('splash').style.display='none';document.ge
 function elForQ(q){var w=q.w||{},best,k;for(k in w){if(!best||w[k]>w[best])best=k}return best||'N'}
 
 
-function renderPage(p){PAGE=p;var from=p*4,to=Math.min(from+4,200);document.getElementById('step').textContent=(from+1)+'-'+to+' / 200';document.getElementById('prog').style.width=(to/200*100)+'%';document.getElementById('prevBtn').disabled=p===0;document.getElementById('nextBtn').textContent=to>=200?'查看结果':'下一组';var h='';for(var i=from;i<to;i++){var q=QQ[i],sel=ANSW[i],el=elForQ(q);h+='<div class="qg active"><div class="item"><div class="qt">'+(i+1)+'. '+q.t+'</div><div class="ql"><span>不同意</span><span>不确定</span><span>同意</span></div><div class="qr">';for(var v=-3;v<=3;v++){h+='<button class="btn'+(sel===v?' s el-'+el:'')+'" onclick="pick('+i+','+v+',this)"><div class="in"></div></button>';}h+='</div></div></div>';}document.getElementById('qwrap').innerHTML=h;}
+function renderPage(p){PAGE=p;var from=p*4,to=Math.min(from+4,30);document.getElementById('step').textContent=(from+1)+'-'+to+' / 30';document.getElementById('prog').style.width=(to/30*100)+'%';document.getElementById('prevBtn').disabled=p===0;document.getElementById('nextBtn').textContent=to>=30?'查看结果':'下一组';var h='';for(var i=from;i<to;i++){var q=QQ[i],sel=ANSW[i],el=elForQ(q);h+='<div class="qg active"><div class="item"><div class="qt">'+(i+1)+'. '+q.t+'</div><div class="ql"><span>不同意</span><span>不确定</span><span>同意</span></div><div class="qr">';for(var v=-3;v<=3;v++){h+='<button class="btn'+(sel===v?' s el-'+el:'')+'" onclick="pick('+i+','+v+',this)"><div class="in"></div></button>';}h+='</div></div></div>';}document.getElementById('qwrap').innerHTML=h;}
 
 
 function pick(qi,v,btn){ANSW[qi]=v;var btns=btn.parentNode.querySelectorAll('button');for(var i=0;i<btns.length;i++)btns[i].className='btn';btn.className='btn s el-'+elForQ(QQ[qi]);}
 
 
-function nextPage(){var from=PAGE*4,to=Math.min(from+4,200);for(var i=from;i<to;i++){if(ANSW[i]===undefined){alert('还有题目没答完～');return}}if(to>=30){showRes();return}renderPage(PAGE+1);window.scrollTo(0,0)}
+function nextPage(){var from=PAGE*4,to=Math.min(from+4,30);for(var i=from;i<to;i++){if(ANSW[i]===undefined){alert('还有题目没答完～');return}}if(to>=30){showRes();return}renderPage(PAGE+1);window.scrollTo(0,0)}
 
 
 function prevPage(){if(PAGE>0)renderPage(PAGE-1);window.scrollTo(0,0)}
