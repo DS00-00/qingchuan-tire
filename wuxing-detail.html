@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>五行 · 从经典到现代</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Noto Sans SC',sans-serif;background:#faf8f5;color:#1a1a1a;line-height:1.9;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(135deg,#b6977a,#c49a6c);color:#fff;text-align:center;padding:48px 20px 36px}
+.header h1{font-size:28px;font-weight:300;letter-spacing:12px;margin-bottom:8px}
+.header .sub{font-size:14px;opacity:.8;letter-spacing:2px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 60px}
+
+/* 目录 */
+.toc{background:#fff;border-radius:12px;padding:20px;margin:20px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.toc h2{font-size:14px;color:#999;letter-spacing:3px;margin-bottom:12px;font-weight:500}
+.toc a{display:block;padding:8px 0;color:#c49a6c;text-decoration:none;font-size:15px;border-bottom:1px solid #f5f3f0}
+.toc a:last-child{border-bottom:none}
+.toc a:hover{color:#b08050}
+
+/* 卡片章节 */
+.sec{background:#fff;border-radius:12px;padding:24px;margin:20px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.sec h2{font-size:20px;font-weight:600;color:#222;letter-spacing:2px;padding-bottom:14px;margin-bottom:18px;border-bottom:2px solid #f0eee9;display:flex;align-items:center;gap:10px}
+.sec h2 .badge{display:inline-flex;width:28px;height:28px;border-radius:50%;background:#c49a6c;color:#fff;font-size:13px;align-items:center;justify-content:center;flex-shrink:0}
+.sec h3{font-size:16px;font-weight:600;color:#c49a6c;margin:18px 0 8px;letter-spacing:1px}
+.sec p{font-size:15px;color:#444;margin:10px 0;text-indent:2em}
+.sec p.no-indent{text-indent:0}
+.sec blockquote{border-left:3px solid #c49a6c;margin:14px 0;padding:10px 16px;background:#faf8f5;border-radius:0 8px 8px 0;font-size:14px;color:#666;font-style:italic}
+
+/* 五行格 */
+.wuxing-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;margin:16px 0}
+.wg{text-align:center;padding:16px 6px;border-radius:10px;color:#fff}
+.wg .wg-el{font-size:20px;font-weight:700;letter-spacing:2px}
+.wg .wg-cn{font-size:13px;opacity:.85;margin-top:2px}
+.wg .wg-en{font-size:10px;opacity:.6;margin-top:1px}
+.wg-O{background:#5fa85f}.wg-B{background:#d4755a}.wg-A{background:#b6977a}.wg-R{background:#d4a528}.wg-D{background:#5f9db5}
+
+/* 生克关系图 */
+.sk{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+.sk .sk-item{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:8px;font-size:14px}
+.sk .sk-item .sk-arr{font-size:18px}
+.sk .sk-item.sk-sheng{background:#e8f5e9;border:1px solid #a5d6a7}
+.sk .sk-item.sk-ke{background:#ffe8e8;border:1px solid #ef9a9a}
+.sk .sk-item .sk-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+
+/* 经典引用 */
+.quote-block{padding:20px;background:linear-gradient(135deg,#faf8f5,#f5f0e8);border-radius:10px;margin:16px 0;border:1px solid #eae3d8}
+.quote-block .qt{font-size:16px;font-weight:500;color:#333;padding-bottom:8px}
+.quote-block .qs{font-size:13px;color:#999}
+
+/* 时间线 */
+.timeline{padding:0;margin:16px 0}
+.tl-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #f0eee9}
+.tl-item:last-child{border-bottom:none}
+.tl-year{flex-shrink:0;width:60px;font-size:13px;font-weight:600;color:#c49a6c;padding-top:2px}
+.tl-body{flex:1;font-size:14px;color:#444}
+
+/* 底部链接 */
+.footer{text-align:center;padding:20px;font-size:12px;color:#aaa}
+.footer a{color:#c49a6c;text-decoration:none}
+@media(max-width:480px){.header h1{font-size:22px}.wuxing-grid{grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:4px}.wg{padding:12px 4px}.wg .wg-el{font-size:16px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>五 行</h1>
+  <div class="sub">从经典到现代 · 一套理解世界的语言</div>
+</div>
+
+<div class="wrap">
+
+<!-- 导航 -->
+<div class="toc">
+  <h2>⌂ 目录</h2>
+  <a href="#classic">一、古代经典——五行的源头</a>
+  <a href="#philosophy">二、哲学含义——不只是五种物质</a>
+  <a href="#modern">三、现代社会语境——重新理解五行</a>
+  <a href="#test">← 返回五行人格测试</a>
+</div>
+
+<!-- 五行简述 -->
+<div class="wuxing-grid">
+  <div class="wg wg-O"><div class="wg-el">木</div><div class="wg-cn">生长</div><div class="wg-en">Originate</div></div>
+  <div class="wg wg-B"><div class="wg-el">火</div><div class="wg-cn">行动</div><div class="wg-en">Blaze</div></div>
+  <div class="wg wg-A"><div class="wg-el">土</div><div class="wg-cn">稳定</div><div class="wg-en">Anchor</div></div>
+  <div class="wg wg-R"><div class="wg-el">金</div><div class="wg-cn">结构</div><div class="wg-en">Refine</div></div>
+  <div class="wg wg-D"><div class="wg-el">水</div><div class="wg-cn">深度</div><div class="wg-en">Depth</div></div>
+</div>
+
+<!-- 一、古代经典 -->
+<div class="sec" id="classic">
+  <h2><span class="badge">一</span>古代经典——五行的源头</h2>
+
+  <h3>《尚书·洪范》——最早的系统记载</h3>
+  <p>五行一词最早见于《尚书·洪范》。相传周武王灭商后，向商朝遗臣箕子请教治国之道，箕子便陈说了"洪范九畴"（九条治天下的大法），其中第一条就是五行：</p>
+  
+  <div class="quote-block">
+    <div class="qt">"五行：一曰水，二曰火，三曰木，四曰金，五曰土。水曰润下，火曰炎上，木曰曲直，金曰从革，土爰稼穑。"</div>
+    <div class="qs">——《尚书·洪范》</div>
+  </div>
+
+  <p class="no-indent">这段话定义了五行的基本性质：</p>
+  <p><b>水曰润下</b>——水向下渗透、滋润万物的特性。<br><b>火曰炎上</b>——火向上燃烧、热烈的特性。<br><b>木曰曲直</b>——木可曲可直，有生长的特性。<br><b>金曰从革</b>——金属可熔炼变形，有变革的特性。<br><b>土爰稼穑</b>——土可耕种收获，有承载孕育的特性。</p>
+  <p>注意：这里的"五行"不是五种静态的物质，而是五种"行"——五种运行方式、五种趋势、五种动力。这也是"五行"的"行"读作xíng（行走的行）而非háng（行业的行）的原因。</p>
+
+  <h3>《国语》《左传》——从理论到实践</h3>
+  <p>春秋战国时期，五行理论开始与天文、历法、医学结合。《国语》记载了"天六地五"的说法（天有六气，地有五行），将五行与自然现象联系起来。</p>
+  <p>《左传》中则有"天生五材，民并用之"的记载，说明当时五行已从哲学概念扩展到治国理政的框架。</p>
+
+  <h3>邹衍——阴阳五行学派的奠基人</h3>
+  <p>战国末期，阴阳家邹衍（约公元前324-前250年）将五行与阴阳学说深度融合，创立了"五德终始说"——用五行相克的顺序来解释王朝的更替：土德→木德→金德→火德→水德，循环往复。这一理论深刻影响了秦汉以后的政治哲学。</p>
+
+  <h3>《黄帝内经》——中医的理论基石</h3>
+  <div class="quote-block">
+    <div class="qt">"东方生风，风生木，木生酸，酸生肝，肝生筋……"</div>
+    <div class="qs">——《黄帝内经·素问》</div>
+  </div>
+  <p>《黄帝内经》将五行系统完整地对应到人体的五脏（肝木、心火、脾土、肺金、肾水）、五志（怒、喜、思、忧、恐）、五色、五味、五音等，形成了一套完整的天人相应体系。这是五行理论在医学领域最系统、最影响深远的一次应用。</p>
+
+  <h3>董仲舒——儒学与五行的大融合</h3>
+  <p>西汉大儒董仲舒在《春秋繁露》中，将五行与儒家伦理紧密结合，建立了"天人感应"的理论框架。他赋予五行以道德属性——木为仁、火为礼、土为信、金为义、水为智——使五行从自然哲学扩展到伦理哲学，成为官方意识形态的组成部分。</p>
+
+  <h3>萧吉《五行大义》——五行的集大成</h3>
+  <p>隋代萧吉所著《五行大义》，是古代五行学说的百科全书式的著作。全书五卷，涵盖五行与干支、五行与律历、五行与五常、五行与五色、五行与五方等几乎所有领域的对应关系，是研究古代五行思想的必读经典。</p>
+</div>
+
+<!-- 二、哲学含义 -->
+<div class="sec" id="philosophy">
+  <h2><span class="badge">二</span>哲学含义——不只是五种物质</h2>
+
+  <h3>五行是"行"不是"物"</h3>
+  <p>这是理解五行最核心的一点。"五行"不是五种基本元素（element），而是五种运动方式（process/phase）。水的本质不是H₂O，而是"润下"这个动作；火的本质不是燃烧，而是"炎上"这个趋势。正如英国汉学家葛瑞汉（A.C. Graham）所说：</p>
+  <div class="quote-block">
+    <div class="qt">"西方哲学问'世界是由什么构成的'，中国哲学问'世界是如何运作的'。五行回答的是后者。"</div>
+    <div class="qs">——葛瑞汉《阴阳与关联思维》</div>
+  </div>
+
+  <h3>相生——创造的逻辑</h3>
+  <p>五行相生：木生火、火生土、土生金、金生水、水生木。这不是因果链，而是能量转化的自然序列：</p>
+  <div class="sk">
+    <div class="sk-item sk-sheng"><span class="sk-dot" style="background:#5fa85f"></span>木生火 <span class="sk-arr">→</span> 燃烧</div>
+    <div class="sk-item sk-sheng"><span class="sk-dot" style="background:#d4755a"></span>火生土 <span class="sk-arr">→</span> 灰烬</div>
+    <div class="sk-item sk-sheng"><span class="sk-dot" style="background:#b6977a"></span>土生金 <span class="sk-arr">→</span> 矿石</div>
+    <div class="sk-item sk-sheng"><span class="sk-dot" style="background:#d4a528"></span>金生水 <span class="sk-arr">→</span> 熔金为液</div>
+    <div class="sk-item sk-sheng"><span class="sk-dot" style="background:#5f9db5"></span>水生木 <span class="sk-arr">→</span> 滋养生长</div>
+  </div>
+  <p>相生是创造和滋养的关系。每一个阶段都为下一个阶段提供能量和条件。</p>
+
+  <h3>相克——平衡的逻辑</h3>
+  <p>五行相克：木克土、土克水、水克火、火克金、金克木。相克不是消灭，而是制约和平衡：</p>
+  <div class="sk">
+    <div class="sk-item sk-ke"><span class="sk-dot" style="background:#5fa85f"></span>木克土 <span class="sk-arr">✕</span> 树根固土</div>
+    <div class="sk-item sk-ke"><span class="sk-dot" style="background:#b6977a"></span>土克水 <span class="sk-arr">✕</span> 筑堤防洪</div>
+    <div class="sk-item sk-ke"><span class="sk-dot" style="background:#5f9db5"></span>水克火 <span class="sk-arr">✕</span> 水能灭火</div>
+    <div class="sk-item sk-ke"><span class="sk-dot" style="background:#d4755a"></span>火克金 <span class="sk-arr">✕</span> 烈火熔金</div>
+    <div class="sk-item sk-ke"><span class="sk-dot" style="background:#d4a528"></span>金克木 <span class="sk-arr">✕</span> 刀斧砍木</div>
+  </div>
+  <p>没有相生，世界无法创造；没有相克，世界就会失控。生与克是一体两面：生中有克（过度生发需要抑制），克中有生（克制也可以促成转化）。</p>
+
+  <h3>与西方哲学的比较</h3>
+  <p>古希腊四元素说（土、水、气、火）追问"原始物质是什么"；五行问的是"事物如何变化和关联"。四元素是静态的、还原论的，五行是动态的、系统论的。</p>
+  <p>这与莱布尼茨的单子论有深层共鸣。莱布尼茨认为世界由无数具有知觉能力的"单子"构成，每个单子都从自己的视角反映整个宇宙——这与五行系统中"每一个元素都内含与其他元素的关系"的思路非常接近。</p>
+  <p>怀特海的过程哲学（Process Philosophy）也与此呼应：实在不是由实体构成的，而是由"过程"和"事件"构成的。事物是什么，取决于它如何变化和与什么关联。在这个意义上，五行是一个2500年前的"过程哲学"模型。</p>
+</div>
+
+<!-- 三、现代社会语境 -->
+<div class="sec" id="modern">
+  <h2><span class="badge">三</span>现代社会语境——重新理解五行</h2>
+
+  <h3>作为系统思维模型的五行</h3>
+  <p>20世纪发展起来的系统论（General Systems Theory）和控制论（Cybernetics）让西方思想界重新发现了五行。控制论中有正反馈（相当于"生"）和负反馈（相当于"克"）——任何健康系统都需要两种反馈机制的动态平衡。</p>
+  <p>当系统某一部分过旺（如火太盛），相克机制（水克火）就会启动来恢复平衡。如果克制不足，系统就会走向崩溃。这正是五行"生克"理论在现代系统科学中的回响。</p>
+
+  <h3>心理学模型中的五行</h3>
+  <p>卡尔·荣格（Carl Jung）的类型学将人格分为思维、情感、感觉、直觉四种功能。这一模型与五行人格理论在结构上有惊人的相似性——两者都认为人的心理不是单一的，而是由多种内在能量组成，健康的状态是各种能量的动态平衡，而不是某一维度的极端发展。</p>
+  <p>现代积极心理学中的"性格优势"理论（VIA Classification）识别了24种性格优势，归为六类美德。五行人格的5个维度、15个剖面（每个维度下3个维度）在结构上更精细，但本质上都在回答同一个问题：人如何认识自己、如何与自己和解。</p>
+
+  <h3>管理学和团队建设</h3>
+  <p>一个高效团队需要多样化的角色和风格：</p>
+  <p><b>木型人：</b>创意者、创新者、破局者——给团队带来灵感和可能性。</p>
+  <p><b>火型人：</b>推动者、公关者、实干者——把想法变成行动，感染团队。</p>
+  <p><b>土型人：</b>协调者、维护者、支持者——稳定团队情绪，维护关系。</p>
+  <p><b>金型人：</b>规划者、分析师、标准制定者——为团队提供结构和方法。</p>
+  <p><b>水型人：</b>思考者、研究者、深度专家——为团队提供深度和洞察。</p>
+  <p>一个只有木和火的团队想法多、行动快，但没有金和土的制约就容易失控；一个只有金和土的团队稳定可靠，但缺乏创新动力。五行的动态平衡思想，本质上是最早的"团队多样性"理论。</p>
+
+  <h3>数字时代的五行</h3>
+  <p>在信息过载的时代，五行的价值比任何时候都大：</p>
+  <p>木的能量提醒我们保持好奇心，不被算法困在信息茧房里。</p>
+  <p>火的能量提醒我们行动——太多信息不如一次尝试。</p>
+  <p>土的能量提醒我们建立习惯和节律，在碎片化中保持稳定。</p>
+  <p>金的能量提醒我们建立框架和边界，不被信息洪流冲走。</p>
+  <p>水的能量提醒我们深度思考——流量时代最稀缺的不是信息，是专注。</p>
+  <p>五行不是算命。是一套2500年前中国人用来理解世界的语言。它不预测未来，它帮你理解：此刻你在哪个位置，什么能量在主导你，你缺少什么，过剩什么。这个认识本身就是一种智慧。</p>
+</div>
+
+<!-- 时间轴 -->
+<div class="sec">
+  <h2><span class="badge">⏳</span>五行思想时间线</h2>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-year">~前1000年</div><div class="tl-body">《尚书·洪范》记载五行，最早的系统表述</div></div>
+    <div class="tl-item"><div class="tl-year">春秋战国</div><div class="tl-body">五行理论扩散至天文、历法、军事、医学。邹衍创立阴阳五行学派</div></div>
+    <div class="tl-item"><div class="tl-year">~前200年</div><div class="tl-body">《黄帝内经》将五行引入医学，建立五脏对应体系</div></div>
+    <div class="tl-item"><div class="tl-year">~前100年</div><div class="tl-body">董仲舒融合五行与儒学，"天人感应"成为官方哲学</div></div>
+    <div class="tl-item"><div class="tl-year">~600年</div><div class="tl-body">萧吉著《五行大义》，五行思想集大成之作</div></div>
+    <div class="tl-item"><div class="tl-year">宋明</div><div class="tl-body">理学家将五行纳入"理气"体系，五行从宇宙论转向心性论</div></div>
+    <div class="tl-item"><div class="tl-year">20世纪</div><div class="tl-body">系统论、控制论的兴起让西方重新发现五行的思想价值</div></div>
+    <div class="tl-item"><div class="tl-year">今天</div><div class="tl-body">五行作为自我认知和系统思维的工具，重新进入大众视野</div></div>
+  </div>
+</div>
+
+<!-- 回到测试 -->
+<div style="text-align:center;margin:32px 0">
+  <a href="wuxing.html" style="display:inline-block;padding:14px 40px;background:#c49a6c;color:#fff;border-radius:10px;text-decoration:none;font-size:15px;letter-spacing:3px;">← 返回五行人格测试</a>
+</div>
+
+</div>
+
+<div class="footer">
+  晴川轮胎 · 五行人格<br>
+  <a href="quote.html">朝阳一号轮胎报价</a>
+</div>
+
+</body>
+</html>
