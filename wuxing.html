@@ -477,7 +477,7 @@ h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--a
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">G</span>格局</h2><p>'+E[pr].cn+'为主，'+E[sc].cn+'为辅 · 状态：'+stn[st]+'<br><br>核心格局：'+(patternDesc[comboKey]||E[pr].cn+'生'+E[GEN[pr]].cn+'——'+E[pr].cn+'的能量流向'+E[GEN[pr]].cn)+'<br><br>辅行解读：'+E[sc].cn+'为次。你的'+E[pr].cn+'能量带'+E[sc].cn+'的色调，这让你与纯'+E[pr].cn+'型的人有微妙差别——'+scSubDesc(pr,sc)+'</p></div>';
 
 
-h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">X</span>后缀解读</h2><p>'+(suffixDesc[pr+'_'+st]||suffixDesc['O_'+st])+'</p></div>';
+h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">X</span>后缀解读</h2><div style="font-size:12px;color:#888;line-height:1.7;padding:10px;margin-bottom:10px;border:1px solid #e0ddd8;border-radius:8px;background:#faf8f5">字母说明：第一个字母为主元素（O木、B火、A土、R金、D水），第二个为状态（H和谐、A过亢、C冲克、T转化）</div><p>'+(suffixDesc[pr+'_'+st]||suffixDesc['O_'+st])+'</p></div>';
 
 
 h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--accent)">P</span>15 维剖面</h2><div class="dgrid">';for(var k in E){var el=E[k];for(var j=0;j<el.d3.length;j++){var d=el.d3[j],dv=ds[k+'_'+j];h+='<div class="dc" style="background:'+E[k].clr+'15"><div class="dlb"><span class="dn">'+d.n+'</span><span>'+dv+'%</span></div><div class="dtr"><div class="df" style="width:'+dv+'%;background:'+E[k].clr+'"></div></div></div>';}}h+='</div></div>';
@@ -1246,22 +1246,34 @@ D:[
 function pickFamous(type,n){
 
 
-var arr=FAMOUS[type]||FAMOUS['O'];
+var arr=FAMOUS[type]||[];
 
 
-var copy=arr.slice(),res=[];
+var copy=arr.slice(),res=[],seen={};
 
 
-var count=Math.min(n||7,copy.length);
+var cnt=0,max=Math.min(n||7,copy.length);
 
 
-for(var i=0;i<count;i++){
+while(cnt<max&&copy.length>0){
 
 
 var ri=Math.floor(Math.random()*copy.length);
 
 
-res.push(copy.splice(ri,1)[0]);
+var item=copy.splice(ri,1)[0];
+
+
+if(!item)break;
+
+
+if(seen[item.n])continue;
+
+
+seen[item.n]=true;
+
+
+res.push(item);cnt++;
 
 
 }
