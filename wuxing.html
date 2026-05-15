@@ -409,7 +409,7 @@ function renderPage(p){PAGE=p;var from=p*4,to=Math.min(from+4,30);document.getEl
 function pick(qi,v,btn){ANSW[qi]=v;var btns=btn.parentNode.querySelectorAll('button');for(var i=0;i<btns.length;i++)btns[i].className='btn';btn.className='btn s el-'+elForQ(QQ[qi]);}
 
 
-function nextPage(){var from=PAGE*4,to=Math.min(from+4,30);for(var i=from;i<to;i++){if(ANSW[i]===undefined){alert('还有题目没答完～');return}}if(to>=30){showRes();return}renderPage(PAGE+1);window.scrollTo(0,0)}
+function nextPage(){var from=PAGE*4,to=Math.min(from+4,30);for(var i=from;i<to;i++){if(ANSW[i]===undefined){alert('还有题目没答完～');return}}if(to>=30){try{showRes();}catch(e){alert("JS Error: "+e.message);}return}renderPage(PAGE+1);window.scrollTo(0,0)}
 
 
 function prevPage(){if(PAGE>0)renderPage(PAGE-1);window.scrollTo(0,0)}
@@ -507,7 +507,7 @@ h+='<div class="res-section"><h2><span class="h2-icon" style="background:var(--a
 h+='<div style="text-align:center;margin:32px 0 20px"><a href="wuxing-detail.html" style="display:inline-block;padding:12px 32px;border:2px solid var(--accent);color:var(--accent);border-radius:10px;text-decoration:none;font-size:14px;letter-spacing:2px;">📖 深入了解五行 →</a></div>';
 
 
-h+='<button class="rb" onclick="location.reload()">重新测评</button></div>';
+h+='<div id="errmsg" style="display:none;color:red;padding:20px;margin:16px;border:2px solid red;border-radius:8px;text-align:left;font-size:13px">No JS errors detected</div><button class="rb" onclick="location.reload()">重新测评</button></div>';
 
 
 document.getElementById('res').className='type-'+pr;document.getElementById('res').innerHTML=h;setTimeout(function(){window.scrollTo(0,50)},50);}
