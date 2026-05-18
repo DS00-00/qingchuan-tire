@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=750,initial-scale=0.5,maximum-scale=1.0">
+<title>晴川轮胎 · 车型报价表</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:30px 24px 20px;color:#fff}
+.header h1{font-size:26px;font-weight:700}
+.header p{font-size:13px;opacity:.6;margin-top:4px}
+.tip{font-size:13px;color:#999;padding:12px 24px 4px}
+.content{padding:0 24px 100px}
+.section{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.section-header{
+  background:#1a1a2e;color:#fff;padding:12px 16px;font-size:15px;font-weight:600;
+  display:flex;justify-content:space-between;align-items:center
+}
+.section-header .badge{font-size:12px;background:rgba(255,255,255,.15);padding:2px 10px;border-radius:10px}
+.row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:15px;
+  min-height:40px
+}
+.row:last-child{border-bottom:none}
+.row .size{font-weight:500;color:#333}
+.row .price{font-weight:700;color:#c62828}
+.row .price.na{color:#ccc;font-weight:400}
+.row:nth-child(even){background:#fafafa}
+.footer{position:fixed;bottom:0;width:750px;background:#fff;padding:8px 24px;border-top:1px solid #eee;font-size:12px;color:#999;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🚗 孝感常见车型 · 轮胎规格报价</h1>
+  <p>晴川轮胎 · 朝阳轮胎孝感经销商</p>
+</div>
+
+<div class="tip">按孝感城区保有量排序 · 规格参考汽车之家 · 价格含税</div>
+
+<div class="content" id="content"></div>
+
+<div class="footer">
+  <span>晴川轮胎 · 湖北省孝感市</span>
+  <span>📞 询价</span>
+</div>
+
+<script>
+// ===== 孝感常见车型 Top 20 =====
+const DATA = [
+  {n:'丰田卡罗拉', specs:[['215/55R17',649],['215/55R16',529],['205/55R16',499]]},
+  {n:'日产轩逸', specs:[['215/50R16',559],['205/60R16',499],['195/65R16',489]]},
+  {n:'大众朗逸', specs:[['205/60R16',499],['205/55R16',499],['195/65R16',489]]},
+  {n:'哈弗H6', specs:[['265/60R17',989],['245/65R17',869],['235/65R17',799]]},
+  {n:'大众速腾', specs:[['215/55R17',649],['195/65R15',479]]},
+  {n:'本田CR-V', specs:[['235/60R18',1199],['245/60R18',979],['225/60R18',779],['225/65R17',659],['215/70R16',899]]},
+  {n:'丰田凯美瑞', specs:[['215/55R18',729],['235/50R17',799],['225/50R17',679]]},
+  {n:'丰田RAV4', specs:[['235/60R18',1199],['265/60R17',989],['235/60R17',799],['225/65R17',659],['215/70R16',899],['215/60R17',619]]},
+  {n:'本田雅阁', specs:[['215/50R18',729],['235/50R17',799]]},
+  {n:'比亚迪宋PLUS', specs:[['235/50R19',939]]},
+  {n:'大众迈腾', specs:[['235/45R17',759],['225/50R17',679]]},
+  {n:'长安CS75', specs:[['245/65R17',869]]},
+  {n:'本田思域', specs:[['215/50R17',649],['215/45ZR17 XL',649]]},
+  {n:'日产逍客', specs:[['215/65R17',699],['215/60R17',619]]},
+  {n:'大众宝来', specs:[['215/55R16',529]]},
+  {n:'大众途观L', specs:[['265/50R19',1399],['235/60R18 XL',819]]},
+  {n:'日产奇骏', specs:[['245/60R18',979],['225/60R18',779],['235/60R17',799],['225/60R17',669]]},
+  {n:'奔驰GLC', specs:[['245/50R19',959],['235/55R19 XL',939],['255/55R18 XL',1099]]},
+  {n:'宝马3系', specs:[['225/55R17',689],['225/45ZR18 XL',839],['245/40ZR18 XL',999],['255/40ZR18 XL',979],['225/40ZR18 XL',799],['245/40ZR19 XL',1059],['255/40ZR19 XL',1099]]},
+  {n:'奥迪A6L', specs:[['225/55R18',889],['245/45ZR18 XL',869],['275/40ZR19',1159],['225/50R18 XL','询价']]},
+];
+
+// Render
+const c = document.getElementById('content');
+DATA.forEach(item => {
+  let h = '<div class="section">';
+  h += '<div class="section-header"><span>' + item.n + '</span><span class="badge">' + item.specs.length + '种规格</span></div>';
+  item.specs.forEach(s => {
+    const pr = typeof s[1] === 'number' ? '¥' + s[1] : '<span style="color:#999">' + s[1] + '</span>';
+    h += '<div class="row"><span class="size">' + s[0] + '</span><span class="price' + (typeof s[1] !== 'number'?' na':'') + '">' + pr + '</span></div>';
+  });
+  h += '</div>';
+  c.innerHTML += h;
+});
+</script>
+</body>
+</html>
