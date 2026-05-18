@@ -3,195 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=750,initial-scale=0.5,maximum-scale=1.0">
-<title>晴川轮胎 · 车型查规格</title>
+<title>晴川轮胎 · 车型匹配报价</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;width:750px;margin:0 auto;min-height:100vh}
-.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:36px 24px 24px;color:#fff}
-.header h1{font-size:28px;font-weight:700;letter-spacing:1px}
-.header p{font-size:13px;opacity:.6;margin-top:6px}
-.search-box{padding:16px 24px;position:sticky;top:0;z-index:10;background:#f5f5f5}
-.search-box .wrap{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px}
-.search-box .icon{font-size:20px;color:#999;margin-right:8px}
-.search-box input{flex:1;height:52px;font-size:18px;border:none;outline:none;background:0 0}
-.search-box .clear{font-size:22px;color:#ccc;cursor:pointer;padding:8px;display:none}
-.search-box .clear.show{display:block}
-.search-box .hint{font-size:12px;color:#999;margin-top:8px;padding-left:4px}
-.quick-tags{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px 12px}
-.quick-tag{padding:5px 14px;font-size:13px;border-radius:16px;background:#fff;border:1px solid #e0e0e0;color:#555;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
-.quick-tag:active{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
-.count-bar{padding:4px 24px 8px;font-size:13px;color:#999}
-.results{padding:0 24px 100px}
-.section{margin-bottom:16px}
-.section-title{font-size:15px;font-weight:600;color:#666;padding:10px 0 8px}
-.model-card{background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f0f0}
-.model-name{font-size:17px;font-weight:600;color:#1a1a2e;margin-bottom:8px}
-.tire-grid{display:flex;flex-wrap:wrap;gap:8px}
-.tire-spec{padding:7px 14px;border-radius:8px;background:#f0f4ff;color:#2c3e50;font-size:15px;font-weight:500;border:1px solid #e0e8f5}
-.no-result{text-align:center;padding:80px 0 40px;color:#bbb}
-.no-result .big{font-size:56px;margin-bottom:12px}
-.no-result p{font-size:15px}
-.suggestion{padding:0 24px;margin-top:-8px}
-.sug-item{padding:10px 14px;font-size:15px;color:#333;border-bottom:1px solid #f0f0f0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sug-item:active{background:#f5f5f5}
-.sug-item .match{color:#999;font-size:12px;margin-left:8px}
-.footer{position:fixed;bottom:0;width:750px;background:#fff;padding:8px 24px;border-top:1px solid #eee;font-size:12px;color:#999;display:flex;justify-content:space-between;align-items:center}
-.footer span{opacity:.7}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:32px 24px 20px;color:#fff}
+.header h1{font-size:26px;font-weight:700;letter-spacing:1px}
+.header p{font-size:13px;opacity:.6;margin-top:4px}
+.topbar{position:sticky;top:0;z-index:10;background:#f5f5f5;padding:12px 24px 0}
+.search-wrap{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;padding:0 14px;height:48px}
+.search-wrap .icon{font-size:18px;color:#aaa;margin-right:8px}
+.search-wrap input{flex:1;height:48px;font-size:16px;border:none;outline:none;background:0 0}
+.search-wrap .clear{font-size:20px;color:#ccc;cursor:pointer;padding:6px;display:none}
+.search-wrap .clear.show{display:block}
+.stats-wrap{font-size:13px;color:#999;padding:8px 24px 4px}
+.content{padding:0 24px 100px}
+.section{background:#fff;border-radius:10px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.05);overflow:hidden}
+.section-header{
+  background:#1a1a2e;color:#fff;padding:10px 14px;font-size:14px;font-weight:600;
+  display:flex;justify-content:space-between;align-items:center
+}
+.section-header .badge{font-size:11px;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:8px}
+.row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 14px;border-bottom:1px solid #f3f3f3;font-size:14px;min-height:38px
+}
+.row:last-child{border-bottom:none}
+.row .size{font-weight:500;color:#333}
+.row .price{font-weight:700;color:#c62828}
+.row .price.none{color:#bbb;font-weight:400;font-size:12px}
+.row:nth-child(even){background:#fafafa}
+.no-results{text-align:center;padding:60px 0;color:#bbb}
+.no-results .big{font-size:46px;margin-bottom:10px}
+.no-results p{font-size:15px}
+.footer{position:fixed;bottom:0;width:750px;background:#fff;padding:8px 24px;border-top:1px solid #eee;font-size:12px;color:#999;display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🔍 车型查规格</h1>
+  <h1>🔍 车型 · 规格 · 报价</h1>
   <p>晴川轮胎 · 朝阳轮胎孝感经销商</p>
 </div>
 
-<div class="search-box">
-  <div class="wrap">
+<div class="topbar">
+  <div class="search-wrap">
     <span class="icon">🔎</span>
-    <input id="search" type="text" placeholder="输入车型，如：本田CRV、卡罗拉…" autocomplete="off">
-    <span class="clear" id="clearBtn" onclick="clearSearch()">✕</span>
+    <input id="search" type="text" placeholder="输入车型，如 本田CRV、卡罗拉…" autocomplete="off">
+    <span class="clear" id="clearBtn" onclick="cls()">✕</span>
   </div>
-  <div class="hint">支持中文/英文/简称 · 门店快速查询工具</div>
 </div>
-
-<div class="quick-tags" id="quickTags"></div>
-<div class="count-bar" id="countBar"></div>
-<div class="suggestion" id="suggestion"></div>
-<div class="results" id="results"></div>
-
-<div class="footer">
-  <span>晴川轮胎 · 湖北省孝感市</span>
-  <span>📞 132-xxxx-xxxx</span>
-</div>
+<div class="stats-wrap" id="stats"></div>
+<div class="content" id="content"></div>
+<div class="footer"><span>晴川轮胎 · 孝感</span><span>报价仅供参考 以店内为准</span></div>
 
 <script>
-const HOT = ['本田CR-V','丰田卡罗拉','日产轩逸','大众朗逸','哈弗H6','宝马3系','奔驰GLC','特斯拉Model 3','比亚迪汉EV','丰田汉兰达','理想L9','大众途观L'];
-
 async function init(){
-  let data;
-  try{
-    const r=await fetch('./data/car_tire_data.json');
-    data=await r.json();
-  }catch(e){
-    document.getElementById('results').innerHTML='<div class="no-result"><div class="big">⚠️</div><p>数据加载失败</p></div>';
-    return;
-  }
-  const cars=data.cars, idx=data.idx;
-  const tags=document.getElementById('quickTags');
-  const input=document.getElementById('search');
-  const resultsDiv=document.getElementById('results');
-  const sugDiv=document.getElementById('suggestion');
-  const countBar=document.getElementById('countBar');
-  const clearBtn=document.getElementById('clearBtn');
-  
-  HOT.forEach(c=>{
-    const t=document.createElement('span');
-    t.className='quick-tag';
-    t.textContent=c;
-    t.onclick=()=>{input.value=c;doSearch(c);sugDiv.innerHTML='';};
-    tags.appendChild(t);
-  });
+  const r=await fetch('./data/full_quote_data.json');
+  const D=await r.json();
+  const all=D.all, idx=D.idx, hot=D.hot;
+  const inp=document.getElementById('search'), c=document.getElementById('content'), s=document.getElementById('stats');
+  showHot(hot);
   
   let timer;
-  input.addEventListener('input',function(){
-    clearBtn.classList.toggle('show',this.value.length>0);
+  inp.addEventListener('input',function(){
+    document.getElementById('clearBtn').classList.toggle('show',this.value.length>0);
     clearTimeout(timer);
     const v=this.value.trim();
-    if(v.length<1){showDefault();return;}
-    timer=setTimeout(()=>doSearch(v),120);
+    if(!v){showHot(hot);return;}
+    timer=setTimeout(()=>search(v),100);
   });
   
-  input.addEventListener('focus',function(){
-    if(this.value.trim())doSearch(this.value.trim());
-  });
+  function showHot(hotList){
+    s.textContent='孝感常见车型 Top 20';
+    let h='';
+    hotList.forEach(car=>{
+      if(!all[car])return;
+      const specs=all[car];
+      h+='<div class="section"><div class="section-header"><span>'+car+'</span><span class="badge">'+specs.length+'种</span></div>';
+      specs.forEach(sp=>{
+        const pr=sp[1]>0?'¥'+sp[1]:'<span style="color:#bbb">询价</span>';
+        h+='<div class="row"><span class="size">'+sp[0]+'</span><span class="price'+(sp[1]>0?'':' none')+'">'+pr+'</span></div>';
+      });
+      h+='</div>';
+    });
+    c.innerHTML=h;
+  }
   
-  function doSearch(q){
+  function search(q){
     const uc=q.toUpperCase().replace(/[·\-()（）\s]/g,'');
-    if(!uc){showDefault();return;}
+    if(!uc)return;
     
-    const found=new Map();
+    const found=new Set();
+    if(idx[uc])found.add(idx[uc]);
+    for(let k in idx){if(found.size>=15)break;if(k.includes(uc)||uc.includes(k))found.add(idx[k]);}
+    for(let car in all){if(found.size>=15)break;if(car.toUpperCase().replace(/[·\-()（）\s]/g,'').includes(uc))found.add(car);}
     
-    // Exact match
-    if(idx[uc])addMatch(found,idx[uc]);
+    const arr=Array.from(found).filter(c=>all[c]);
+    s.textContent=arr.length?arr.length+' 个匹配结果':'';
     
-    // Fuzzy index match
-    if(found.size<8){
-      for(let k in idx){
-        if(k.includes(uc)||uc.includes(k)){
-          addMatch(found,idx[k]);
-          if(found.size>=8)break;
-        }
-      }
-    }
-    
-    // Direct car name match
-    for(let car in cars){
-      if(found.has(car)||found.size>=8)break;
-      const cn=car.toUpperCase().replace(/[·\-()（）\s]/g,'');
-      if(cn.includes(uc))addMatch(found,car);
-    }
-    
-    const arr=Array.from(found.values());
-    countBar.textContent=arr.length>0?`找到 ${arr.length} 个匹配车型`:'';
-    
-    if(arr.length===0){
-      resultsDiv.innerHTML='<div class="no-result"><div class="big">🔍</div><p>未找到「'+q+'」，试试其他关键词</p></div>';
-      sugDiv.innerHTML='';
+    if(!arr.length){
+      c.innerHTML='<div class="no-results"><div class="big">🔍</div><p>未找到「'+q+'」</p></div>';
       return;
     }
     
-    let html='<div class="section">';
+    let h='';
     arr.forEach(car=>{
-      const sizes=cars[car]||[];
-      html+='<div class="model-card">';
-      html+='<div class="model-name">'+car+'</div>';
-      html+='<div class="tire-grid">';
-      sizes.forEach(s=>{html+='<span class="tire-spec">'+s+'</span>';});
-      html+='</div></div>';
+      const specs=all[car];
+      h+='<div class="section"><div class="section-header"><span>'+car+'</span><span class="badge">'+specs.length+'种</span></div>';
+      specs.forEach(sp=>{
+        const pr=sp[1]>0?'¥'+sp[1]:'<span style="color:#bbb">询价</span>';
+        h+='<div class="row"><span class="size">'+sp[0]+'</span><span class="price'+(sp[1]>0?'':' none')+'">'+pr+'</span></div>';
+      });
+      h+='</div>';
     });
-    html+='</div>';
-    resultsDiv.innerHTML=html;
-    
-    // Suggest extras
-    if(arr.length<5){
-      let extra=[], ec=0;
-      for(let k in idx){
-        if(found.has(idx[k]))continue;
-        if(uc.length>=2&&k.startsWith(uc[0])){
-          extra.push(idx[k]);
-          if(++ec>=4)break;
-        }
-      }
-      if(extra.length){
-        sugDiv.innerHTML='<div class="section-title" style="padding:0 0 6px;font-size:13px">你可能还想查:</div>'+extra.map(c=>'<div class="sug-item" onclick="document.getElementById(\'search\').value=\''+c+'\';doSearch(\''+c+'\');this.parentElement.innerHTML=\'\'">'+c+'</div>').join('');
-      }
-    }
+    c.innerHTML=h;
   }
   
-  function addMatch(map,car){
-    if(!map.has(car)&&cars[car])map.set(car,cars[car]);
-  }
-  
-  function showDefault(){
-    resultsDiv.innerHTML='<div class="section"><div class="section-title">输入车型名称开始查询</div><div class="no-result" style="padding:30px 0"><p>🔍 支持：车型全称、简称、英文名</p><p style="margin-top:6px;font-size:13px;color:#ccc">本田CRV / BMWX5 / H6 / Model3 / RAV4 …</p></div></div>';
-    countBar.textContent='';
-    sugDiv.innerHTML='';
-  }
-  
-  window.doSearch=doSearch;
-  showDefault();
+  window.cls=function(){
+    inp.value='';document.getElementById('clearBtn').classList.remove('show');showHot(hot);inp.focus();
+  };
 }
-
-function clearSearch(){
-  document.getElementById('search').value='';
-  document.getElementById('clearBtn').classList.remove('show');
-  document.getElementById('results').innerHTML='<div class="section"><div class="section-title">输入车型名称开始查询</div><div class="no-result" style="padding:30px 0"><p>🔍 支持：车型全称、简称、英文名</p></div></div>';
-  document.getElementById('countBar').textContent='';
-  document.getElementById('suggestion').innerHTML='';
-  document.getElementById('search').focus();
-}
-
 init();
 </script>
 </body>
