@@ -89,12 +89,18 @@ CATS.forEach(c => {
 
 function render(list) {
   stats.textContent = list.length + " 篇文档";
-  content.innerHTML = list.map(d =>
-    '<div class="doc-card" onclick="openDoc('' + d.t.replace(/'/g,"\\'") + '','' + d.f + '')">' +
+  currentDocs = list;
+  content.innerHTML = list.map((d,i) =>
+    '<div class="doc-card" onclick="openDocByIndex(' + i + ')">' +
     '<div class="title">' + d.t + '</div>' +
     '<div class="meta"><span>' + (d.s/1000).toFixed(1) + 'KB</span><span class="tag">' + d.c + '</span></div>' +
     '</div>'
   ).join("");
+}
+let currentDocs;
+function openDocByIndex(i) {
+  const d = currentDocs[i];
+  openDoc(d.t, d.f);
 }
 
 function openDoc(title, filename) {
