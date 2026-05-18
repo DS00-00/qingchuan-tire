@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=750,initial-scale=0.5,maximum-scale=1.0">
+<title>晴川知识库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:30px 24px 20px;color:#fff}
+.header h1{font-size:26px;font-weight:700}
+.header p{font-size:13px;opacity:.6;margin-top:4px}
+.cat-bar{display:flex;flex-wrap:wrap;gap:8px;padding:12px 24px 0}
+.cat-tag{padding:5px 14px;font-size:12px;border-radius:14px;background:#fff;border:1px solid #e0e0e0;color:#555;cursor:pointer;transition:.15s}
+.cat-tag.on{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.stats{font-size:13px;color:#999;padding:10px 24px 4px}
+.content{padding:0 24px 24px}
+.doc-card{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;transition:.15s;border:1px solid #f0f0f0}
+.doc-card:active{background:#f8f8ff}
+.doc-card .title{font-size:16px;font-weight:600;color:#1a1a2e}
+.doc-card .desc{font-size:13px;color:#888;margin-top:4px;line-height:1.5}
+.doc-card .meta{font-size:11px;color:#aaa;margin-top:6px;display:flex;gap:12px}
+.doc-card .meta .tag{background:#eef;padding:1px 8px;border-radius:8px}
+.reader{display:none;position:fixed;top:0;width:750px;height:100vh;background:#fff;z-index:100;overflow-y:auto}
+.reader.show{display:block}
+.reader .top{background:#1a1a2e;color:#fff;padding:14px 16px;display:flex;align-items:center;position:sticky;top:0;z-index:10}
+.reader .back{font-size:22px;cursor:pointer;padding:4px 12px 4px 0;opacity:.8}
+.reader .top .tt{font-size:16px;font-weight:600;flex:1}
+.reader .body{padding:20px 24px 60px;line-height:1.8;font-size:15px;color:#333}
+.reader .body h1{font-size:22px;margin:20px 0 10px;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:6px}
+.reader .body h2{font-size:18px;margin:16px 0 8px;color:#2c3e50;border-bottom:1px solid #eee;padding-bottom:4px}
+.reader .body h3{font-size:16px;margin:12px 0 6px;color:#34495e}
+.reader .body p{margin:8px 0}
+.reader .body strong{color:#1a1a2e}
+.reader .body code{background:#f0f0f0;padding:2px 6px;border-radius:4px;font-size:13px;color:#c62828}
+.reader .body pre{background:#1a1a2e;color:#e0e0e0;padding:14px;border-radius:8px;overflow-x:auto;font-size:13px;margin:10px 0}
+.reader .body pre code{background:0 0;color:inherit;padding:0}
+.reader .body ul,.reader .body ol{padding-left:20px;margin:6px 0}
+.reader .body li{margin:4px 0}
+.reader .body a{color:#2c6bff;text-decoration:none}
+.reader .body blockquote{border-left:3px solid #1a1a2e;padding:8px 14px;margin:10px 0;background:#f8f8ff;border-radius:0 6px 6px 0;color:#555}
+.reader .body table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+.reader .body td,.reader .body th{border:1px solid #ddd;padding:6px 10px;text-align:left}
+.reader .body th{background:#f0f0f0;font-weight:600}
+.reader .body hr{border:none;border-top:1px solid #eee;margin:16px 0}
+.reader .body img{max-width:100%;border-radius:6px;margin:10px 0}
+.loading{text-align:center;padding:40px;color:#999}
+.footer{position:fixed;bottom:0;width:750px;background:#fff;padding:8px 24px;border-top:1px solid #eee;font-size:12px;color:#999;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 晴川知识库</h1>
+  <p>行业分析 · 投资框架 · 商业思考</p>
+</div>
+
+<div class="cat-bar" id="catBar"></div>
+<div class="stats" id="stats"></div>
+<div class="content" id="content"></div>
+<div class="footer">晴川轮胎 · 孝感</div>
+
+<div class="reader" id="reader">
+  <div class="top"><span class="back" onclick="closeReader()">←</span><span class="tt" id="readerTitle"></span></div>
+  <div class="body" id="readerBody"><div class="loading">加载中...</div></div>
+</div>
+
+<script>
+const DOCS = [
+  {f:'AI机器人产业链自选股监控框架.md',t:'AI机器人产业链 · 自选股监控框架',c:'投资',d:'9大分类30支标的，3层持仓框架，每支股票的市场信号含义',s:2885},
+  {f:'AI采购者_卖铲子经济学.md',t:'AI采购者 · 卖铲子经济学',c:'投资',d:'阿里腾讯638亿资本开支拆解，A股供应链受益图谱，卖铲子vs淘金者周期模型',s:3241},
+  {f:'光模块深度分析.md',t:'光模块 · 深度分析',c:'投资',d:'400G→800G→1.6T技术路线，中国60%+全球份额，CPO颠覆风险，3阶段投资模型',s:3064},
+  {f:'泡泡玛特_联名经济学_符号矩阵.md',t:'泡泡玛特 · 联名经济学 + 符号矩阵',c:'投资',d:'联名5维补充框架：借壳/信号理论/折旧/复利vs单利/需求曲线迁移',s:5406},
+  {f:'机器人五股扫描_20260511.md',t:'机器人赛道 · 五股扫描',c:'投资',d:'禾川/贝斯特/奥比中光/埃斯顿/中大力德 技术面+策略分析',s:2392},
+  {f:'特朗普访华2026_深度分析.md',t:'特朗普2026访华 · 深度分析',c:'投资',d:'关税谈判底线推演，中美科技博弈3种情景，对中国资产的传导路径',s:6126},
+  {f:'AlphaGo_AlphaStar_MCTS_机器人世界模型.md',t:'DeepMind递进解法 + 机器人世界模型',c:'技术',d:'MCTS+价值网络，从围棋到机器人通用大脑的技术路径',s:3332},
+  {f:'API_大模型_Agent_关系.md',t:'API · 大模型 · Agent 关系',c:'技术',d:'大白话版+专业术语版，飞书生成图片完整链路',s:5429},
+  {f:'从0到1_解读.md',t:'《从0到1》全书解读',c:'商业',d:'第4章竞争意识、第12章秘密与互补，彼得·蒂尔核心框架',s:5179},
+  {f:'一人公司创业方法论_汪潇潇米娅.md',t:'一人公司创业方法论',c:'商业',d:'汪潇潇&米娅分享，低成本创业4要素，2万月流水实操路径',s:2398},
+  {f:'个人创业战略_一人公司AI时代.md',t:'创业战略 · AI时代的垄断位置',c:'商业',d:'AI时代找到你的垄断位置，利基市场选择框架',s:1727},
+  {f:'线下创业社群商业模式分析.md',t:'线下创业社群 · 商业模式分析',c:'商业',d:'年费制社群经济模型，湖北本地创投生态',s:2589},
+  {f:'县域AI服务_汽配轮胎助手案例.md',t:'县域AI服务 · 汽配轮胎助手',c:'商业',d:'豆包知识库+库存查询的轮胎店落地案例',s:2057},
+  {f:'五行象思维_经典著作与学术数据库.md',t:'五行象思维 · 经典著作与学术数据库',c:'五行',d:'尚书洪范到五行大义，10+部古代经典索引',s:15641},
+  {f:'五行大五人格_用户文章参考.md',t:'五行大五人格 · 整合框架',c:'五行',d:'五行体性、阴阳两面、评估量表，用户提供的核心框架',s:2823},
+  {f:'Girard_模仿性欲望_彼得蒂尔.md',t:'基拉尔模仿性欲望 · 彼得蒂尔应用',c:'哲学',d:'René Girard的模仿欲望理论，彼得蒂尔在商业中的应用',s:2250},
+  {f:'段永平2006采访.md',t:'段永平2006采访',c:'哲学',d:'本分、平常心、步步高系的经营哲学',s:772},
+];
+
+const cats = ['全部','投资','技术','商业','五行','哲学'];
+const BASE = 'https://raw.githubusercontent.com/DS00-00/qingchuan-tire/main/knowledge/';
+
+let catBar = document.getElementById('catBar');
+let stats = document.getElementById('stats');
+let content = document.getElementById('content');
+let reader = document.getElementById('reader');
+let readerTitle = document.getElementById('readerTitle');
+let readerBody = document.getElementById('readerBody');
+
+cats.forEach(c => {
+  let t = document.createElement('span');
+  t.className = 'cat-tag' + (c === '全部' ? ' on' : '');
+  t.textContent = c;
+  t.onclick = () => {
+    document.querySelectorAll('.cat-tag').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    render(c === '全部' ? DOCS : DOCS.filter(d => d.c === c));
+  };
+  catBar.appendChild(t);
+});
+
+function render(list) {
+  stats.textContent = list.length + ' 篇文档';
+  content.innerHTML = list.map(d => 
+    '<div class="doc-card" onclick="openDoc(\'' + d.f + '\',\'' + d.t.replace(/'/g,"\\'") + '\')">' +
+    '<div class="title">' + d.t + '</div>' +
+    '<div class="desc">' + d.d + '</div>' +
+    '<div class="meta"><span>' + (d.s > 1000 ? (d.s/1000).toFixed(1) + 'KB' : d.s + 'B') + '</span><span class="tag">' + d.c + '</span></div>' +
+    '</div>'
+  ).join('');
+}
+
+render(DOCS);
+
+// Simple markdown renderer
+function md2html(md) {
+  let h = '';
+  let lines = md.split('\n');
+  let inCode = false, codeBuf = [];
+  for (let i = 0; i < lines.length; i++) {
+    let l = lines[i];
+    if (l.startsWith('```') && !inCode) { inCode = true; codeBuf = []; continue; }
+    if (l.startsWith('```') && inCode) { 
+      h += '<pre><code>' + escapeHtml(codeBuf.join('\n')) + '</code></pre>'; 
+      inCode = false; continue; 
+    }
+    if (inCode) { codeBuf.push(l); continue; }
+    if (l === '') { h += '\n'; continue; }
+    if (l.startsWith('---')) continue;
+    
+    // Headers
+    if (l.startsWith('###### ')) { h += '<h6>' + inline(l.slice(7)) + '</h6>'; continue; }
+    if (l.startsWith('##### ')) { h += '<h5>' + inline(l.slice(6)) + '</h5>'; continue; }
+    if (l.startsWith('#### ')) { h += '<h4>' + inline(l.slice(5)) + '</h4>'; continue; }
+    if (l.startsWith('### ')) { h += '<h3>' + inline(l.slice(4)) + '</h3>'; continue; }
+    if (l.startsWith('## ')) { h += '<h2>' + inline(l.slice(3)) + '</h2>'; continue; }
+    if (l.startsWith('# ')) { h += '<h1>' + inline(l.slice(2)) + '</h1>'; continue; }
+    
+    // Blockquote
+    if (l.startsWith('> ')) { h += '<blockquote>' + inline(l.slice(2)) + '</blockquote>'; continue; }
+    
+    // Horizontal rule
+    if (/^[-*_]{3,}$/.test(l)) { h += '<hr>'; continue; }
+    
+    // Unordered list
+    if (l.match(/^[\s]*[-*+]\s/)) {
+      let li = inline(l.replace(/^[\s]*[-*+]\s/, ''));
+      // Check if previous line was also list item
+      if (h.endsWith('</li>\n')) h = h.slice(0, -6) + '\n';
+      else h += '<ul>\n';
+      h += '<li>' + li + '</li>\n</ul>\n';
+      continue;
+    }
+    
+    // Ordered list
+    if (l.match(/^\s*\d+[.)]\s/)) {
+      let li = inline(l.replace(/^\s*\d+[.)]\s/, ''));
+      if (h.endsWith('</li>\n')) h = h.slice(0, -6) + '\n';
+      else h += '<ol>\n';
+      h += '<li>' + li + '</li>\n</ol>\n';
+      continue;
+    }
+    
+    // Table
+    if (l.includes('|') && !l.startsWith('|--')) {
+      let cells = l.split('|').filter(c => c.trim());
+      if (cells.length > 1) {
+        h += '<tr>' + cells.map(c => '<td>' + inline(c.trim()) + '</td>').join('') + '</tr>';
+        continue;
+      }
+    }
+    if (l.match(/^\|[\s-:]+\|/)) continue; // Table separator
+    
+    // Paragraph
+    h += '<p>' + inline(l) + '</p>';
+  }
+  return h;
+}
+
+function inline(text) {
+  return escapeHtml(text)
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+    .replace(/\n/g, '<br>');
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function openDoc(filename, title) {
+  readerTitle.textContent = title;
+  readerBody.innerHTML = '<div class="loading">加载中...</div>';
+  reader.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  
+  try {
+    const r = await fetch(BASE + encodeURIComponent(filename));
+    const md = await r.text();
+    readerBody.innerHTML = md2html(md);
+  } catch(e) {
+    readerBody.innerHTML = '<p style="color:#c62828;text-align:center;padding:40px">加载失败</p>';
+  }
+}
+
+function closeReader() {
+  reader.classList.remove('show');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
