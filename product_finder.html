@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>产品查价器</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; }
+
+/* header */
+.header { background: #fff; border-bottom: 1px solid #e5e5ea; padding: 16px 16px 12px; position: sticky; top: 0; z-index: 10; }
+.header h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.header .sub { font-size: 13px; color: #86868b; }
+.search-wrap { margin: 0 -16px; padding: 12px 16px 0; }
+.search-bar { display: flex; gap: 8px; align-items: center; }
+.search-bar input { flex: 1; height: 40px; border: 1.5px solid #e5e5ea; border-radius: 10px; padding: 0 14px; font-size: 16px; outline: none; background: #f5f5f7; }
+.search-bar input:focus { border-color: #007aff; background: #fff; }
+.search-bar .clear { display: none; width: 32px; height: 32px; border: none; background: #e5e5ea; border-radius: 50%; font-size: 16px; cursor: pointer; color: #666; flex-shrink: 0; justify-content: center; align-items: center; }
+.search-bar .clear.show { display: flex; }
+
+/* filter tags */
+.filters { display: flex; gap: 6px; padding: 10px 0 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filter-tag { white-space: nowrap; padding: 5px 14px; border-radius: 16px; border: 1.5px solid #e5e5ea; background: #fff; font-size: 13px; color: #666; cursor: pointer; transition: all .15s; flex-shrink: 0; }
+.filter-tag.active { background: #007aff; color: #fff; border-color: #007aff; }
+.filter-tag:active { transform: scale(.95); }
+
+/* stats */
+.stats { padding: 8px 16px 0; font-size: 13px; color: #86868b; }
+
+/* product list */
+.list { padding: 8px 16px 100px; }
+.card { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.04); transition: transform .1s; }
+.card:active { transform: scale(.98); }
+.card .top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.card .name { font-size: 16px; font-weight: 600; }
+.card .specs { font-size: 14px; color: #007aff; font-weight: 500; }
+.card .desc { font-size: 13px; color: #86868b; margin-bottom: 8px; line-height: 1.4; }
+.card .bottom { display: flex; justify-content: space-between; align-items: center; }
+.card .prices { display: flex; gap: 12px; align-items: baseline; }
+.card .price-w { font-size: 18px; font-weight: 700; color: #ff3b30; }
+.card .price-w::before { content: "¥"; font-size: 13px; }
+.card .price-r { font-size: 14px; color: #86868b; }
+.card .price-r::before { content: "零售 ¥"; font-size: 12px; }
+.card .stock { font-size: 12px; padding: 3px 10px; border-radius: 10px; font-weight: 500; }
+.card .stock.in { background: #e8f8ee; color: #34c759; }
+.card .stock.out { background: #fff2f0; color: #ff3b30; }
+.card .stock.pre { background: #fff7e6; color: #ff9500; }
+.card .copy-btn { width: 32px; height: 32px; border: none; background: #f5f5f7; border-radius: 8px; font-size: 14px; cursor: pointer; color: #007aff; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-left: 8px; }
+.card .copy-btn:active { background: #e5e5ea; }
+
+/* toasts */
+.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 999; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* empty */
+.empty { text-align: center; padding: 60px 20px; color: #86868b; }
+.empty .icon { font-size: 48px; margin-bottom: 12px; }
+.empty p { font-size: 14px; line-height: 1.6; }
+
+@media (prefers-color-scheme: dark) {
+body { background: #1c1c1e; color: #f5f5f7; }
+.header { background: #1c1c1e; border-color: #38383a; }
+.search-bar input { background: #2c2c2e; border-color: #38383a; color: #f5f5f7; }
+.search-bar input:focus { border-color: #0a84ff; background: #000; }
+.filter-tag { background: #2c2c2e; border-color: #38383a; color: #98989d; }
+.filter-tag.active { background: #0a84ff; color: #fff; border-color: #0a84ff; }
+.card { background: #2c2c2e; }
+.card .desc { color: #98989d; }
+.card .price-r { color: #98989d; }
+.card .specs { color: #0a84ff; }
+.card .copy-btn { background: #38383a; color: #0a84ff; }
+.stats { color: #98989d; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1 id="storeName">产品中心</h1>
+<div class="sub" id="storeSub">输入关键词搜索</div>
+<div class="search-wrap">
+<div class="search-bar">
+<input id="searchInput" type="text" placeholder="搜索产品名称/型号/规格..." autocomplete="off">
+<button class="clear" id="clearBtn">✕</button>
+</div>
+<div class="filters" id="filterTags"></div>
+</div>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="list" id="productList"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== 店铺配置 =====
+const STORE = {
+  name: "晴川轮胎",
+  subtitle: "朝阳轮胎 · 孝感经销商 · 下单请咨询",
+  currency: "¥"
+};
+
+// ===== 产品数据 =====
+const PRODUCTS = [
+  // ---- 轮胎 ----
+  {n:"朝阳RP56", c:"轮胎", b:"朝阳", s:"235/55R19", d:"花纹深度8.2mm / 速度级别W", w:580, r:780, st:"in"},
+  {n:"朝阳RP56", c:"轮胎", b:"朝阳", s:"225/65R17", d:"SUV专用 / 耐磨型", w:450, r:620, st:"in"},
+  {n:"朝阳RP56", c:"轮胎", b:"朝阳", s:"215/55R17", d:"轿车舒适型", w:380, r:520, st:"in"},
+  {n:"朝阳A08", c:"轮胎", b:"朝阳", s:"185/65R15", d:"经济型轿车", w:260, r:360, st:"in"},
+  {n:"朝阳A08", c:"轮胎", b:"朝阳", s:"195/55R15", d:"经济型轿车", w:280, r:390, st:"out"},
+  {n:"双星DH05", c:"轮胎", b:"双星", s:"235/55R19", d:"城市SUV / 四季胎", w:420, r:580, st:"in"},
+  {n:"双星DH05", c:"轮胎", b:"双星", s:"225/60R18", d:"城市SUV", w:380, r:520, st:"in"},
+  {n:"米其林PS5", c:"轮胎", b:"米其林", s:"225/45R18", d:"运动性能 / 静音", w:890, r:1280, st:"pre"},
+  {n:"米其林PS5", c:"轮胎", b:"米其林", s:"235/40R19", d:"运动性能", w:1080, r:1580, st:"in"},
+  // ---- 电池 ----
+  {n:"风帆蓄电池", c:"电池", b:"风帆", s:"12V 60Ah", d:"免维护 / 日系车通用", w:280, r:380, st:"in"},
+  {n:"风帆蓄电池", c:"电池", b:"风帆", s:"12V 80Ah", d:"免维护 / 德系车通用", w:380, r:500, st:"in"},
+  {n:"瓦尔塔蓝标", c:"电池", b:"瓦尔塔", s:"12V 70Ah", d:"AGM启停专用", w:480, r:650, st:"in"},
+  // ---- 机油 ----
+  {n:"嘉实多极护", c:"机油", b:"嘉实多", s:"5W-30 4L", d:"全合成 / API SP级", w:220, r:320, st:"in"},
+  {n:"嘉实多磁护", c:"机油", b:"嘉实多", s:"5W-40 4L", d:"全合成", w:180, r:260, st:"in"},
+  {n:"壳牌喜力HX7", c:"机油", b:"壳牌", s:"5W-30 4L", d:"合成技术", w:160, r:230, st:"out"},
+];
+
+// STOCK_LABELS
+const STK = {in:"有货", out:"缺货", pre:"预售"};
+
+// state
+let activeCategory = "";
+let activeBrand = "";
+
+function getCategories() {
+  const cats = [...new Set(PRODUCTS.map(p=>p.c))];
+  return cats.sort();
+}
+
+function getBrands() {
+  const bs = [...new Set(PRODUCTS.map(p=>p.b))];
+  return bs.sort();
+}
+
+function renderFilters() {
+  const container = document.getElementById("filterTags");
+  let html = `<button class="filter-tag${!activeCategory&&!activeBrand?' active':''}" data-cat="" data-brand="">全部</button>`;
+  for (const cat of getCategories()) {
+    html += `<button class="filter-tag${activeCategory===cat?' active':''}" data-cat="${cat}" data-brand="">${cat}</button>`;
+  }
+  container.innerHTML = html;
+  container.querySelectorAll(".filter-tag").forEach(btn => {
+    btn.onclick = () => {
+      if (btn.dataset.cat) {
+        activeCategory = activeCategory === btn.dataset.cat ? "" : btn.dataset.cat;
+        activeBrand = "";
+      } else if (btn.dataset.brand) {
+        activeBrand = activeBrand === btn.dataset.brand ? "" : btn.dataset.brand;
+        activeCategory = "";
+      } else {
+        activeCategory = "";
+        activeBrand = "";
+      }
+      renderFilters();
+      searchAndRender();
+    };
+  });
+}
+
+function renderProductCard(p) {
+  const stkClass = p.st==="in"?"in":p.st==="out"?"out":"pre";
+  const stkLabel = STK[p.st]||"未知";
+  return `<div class="card">
+    <div class="top">
+      <div>
+        <div class="name">${p.n}</div>
+        <div class="specs">${p.s}</div>
+      </div>
+      <button class="copy-btn" onclick="copyCard(this)">📋</button>
+    </div>
+    <div class="desc">${p.d}</div>
+    <div class="bottom">
+      <div class="prices">
+        <span class="price-w">${p.w}</span>
+        <span class="price-r">${p.r}</span>
+      </div>
+      <span class="stock ${stkClass}">${stkLabel}</span>
+    </div>
+  </div>`;
+}
+
+function searchAndRender() {
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  const list = document.getElementById("productList");
+  const stats = document.getElementById("stats");
+  const clearBtn = document.getElementById("clearBtn");
+
+  clearBtn.classList.toggle("show", q.length > 0);
+
+  let results = PRODUCTS;
+
+  // filter by search
+  if (q) {
+    results = results.filter(p =>
+      p.n.toLowerCase().includes(q) ||
+      p.s.toLowerCase().includes(q) ||
+      p.c.toLowerCase().includes(q) ||
+      p.b.toLowerCase().includes(q) ||
+      p.d.toLowerCase().includes(q)
+    );
+  }
+
+  // filter by category/brand
+  if (activeCategory) {
+    results = results.filter(p => p.c === activeCategory);
+  }
+  if (activeBrand) {
+    results = results.filter(p => p.b === activeBrand);
+  }
+
+  // sort: in stock first
+  results.sort((a,b) => (a.st==="in"?0:1) - (b.st==="in"?0:1));
+
+  stats.textContent = q || activeCategory ? `找到 ${results.length} 个结果` : `共 ${PRODUCTS.length} 个产品`;
+
+  if (results.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="icon">🔍</div><p>没有匹配的产品<br>试试其他关键词</p></div>`;
+    return;
+  }
+
+  list.innerHTML = results.map(p => renderProductCard(p)).join("");
+}
+
+// copy one product card to clipboard
+function copyCard(btn) {
+  const card = btn.closest(".card");
+  const name = card.querySelector(".name").textContent;
+  const specs = card.querySelector(".specs").textContent;
+  const desc = card.querySelector(".desc")?.textContent || "";
+  const pw = card.querySelector(".price-w").textContent;
+  const pr = card.querySelector(".price-r")?.textContent || "";
+  const stk = card.querySelector(".stock").textContent;
+
+  const text = `${name} ${specs}\n${desc}\n批发 ¥${pw} | 零售 ¥${pr}\n${stk}`;
+  copyText(text);
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => showToast("已复制到剪贴板"));
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showToast("已复制到剪贴板");
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+// init
+document.getElementById("storeName").textContent = STORE.name;
+document.getElementById("storeSub").textContent = STORE.subtitle;
+
+document.getElementById("searchInput").addEventListener("input", searchAndRender);
+document.getElementById("clearBtn").onclick = () => {
+  document.getElementById("searchInput").value = "";
+  searchAndRender();
+  document.getElementById("searchInput").focus();
+};
+
+renderFilters();
+searchAndRender();
+</script>
+</body>
+</html>
